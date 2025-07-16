@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Hub - Books</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #edf2f7;
+      min-height: 100vh;
+      color: #2d3748;
+    }
+
+    .navbar {
+      background: #2d3748;
+      color: #f7fafc;
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+    }
+
+    .navbar-brand {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #f7fafc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar-brand i {
+      color: #3182ce;
+      font-size: 1.2rem;
+    }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navbar a {
+      color: #f7fafc;
+      text-decoration: none;
+      font-weight: 400;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .navbar a:hover {
+      background: #4a5568;
+    }
+
+    .navbar a.active {
+      background: #3182ce;
+      color: #ffffff;
+    }
+
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      padding: 8px 12px 8px 32px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #2d3748;
+      font-size: 0.9rem;
+      outline: none;
+      width: 160px;
+      transition: width 0.3s ease, border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      width: 200px;
+      border-color: #3182ce;
+    }
+
+    .search-input::placeholder {
+      color: #a0aec0;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      color: #a0aec0;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn {
+      background: #3182ce;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: #2b6cb0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 80px auto 0;
+      padding: 0 20px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px 0;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: #718096;
+      font-weight: 300;
+    }
+
+    #posts-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    @media (min-width: 1200px) {
+      #posts-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      #posts-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+    }
+
+    .post {
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+    }
+
+    .post-content-wrapper {
+      padding: 20px;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2d3748;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .post-info h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 6px;
+    }
+
+    .post-meta {
+      color: #718096;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .post-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .post-image-container {
+      margin: 15px 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .post-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .post-description {
+      color: #4a5568;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .post-content {
+      color: #4a5568;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+
+    .post-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .like-btn, .download-btn {
+      background: #3182ce;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s ease;
+      text-decoration: none;
+    }
+
+    .like-btn:hover, .download-btn:hover {
+      background: #2b6cb0;
+    }
+
+    .like-btn.liked {
+      background: #e53e3e;
+    }
+
+    .like-btn.liked:hover {
+      background: #c53030;
+    }
+
+    .post-stats {
+      color: #718096;
+      font-size: 0.85rem;
+    }
+
+    .comment-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .comment-section h4 {
+      color: #2d3748;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .comment-section h4:hover {
+      color: #3182ce;
+    }
+
+    .comments-list {
+      margin-bottom: 20px;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .comments-list.active {
+      display: block;
+    }
+
+    .comment {
+      background: #f7fafc;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border-left: 3px solid #3182ce;
+      display: none;
+    }
+
+    .comment.active {
+      display: block;
+    }
+
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+
+    .comment-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2d3748;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: #3182ce;
+      font-size: 0.85rem;
+    }
+
+    .comment-text {
+      color: #4a5568;
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .comment-time {
+      color: #a0aec0;
+      font-size: 0.8rem;
+    }
+
+    .comment-form {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .comment-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: #ffffff;
+      transition: border-color 0.2s ease;
+      outline: none;
+      resize: vertical;
+      min-height: 40px;
+      font-family: inherit;
+    }
+
+    .comment-input:focus {
+      border-color: #3182ce;
+    }
+
+    .comment-btn {
+      background: #3182ce;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s ease;
+    }
+
+    .comment-btn:hover {
+      background: #2b6cb0;
+    }
+
+    .comment-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 30px;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      grid-column: 1 / -1;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: #cbd5e0;
+      margin-bottom: 15px;
+    }
+
+    .empty-state h3 {
+      color: #2d3748;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      color: #718096;
+      font-size: 0.9rem;
+    }
+
+    .footer {
+      background: #2d3748;
+      color: #f7fafc;
+      padding: 50px 0 20px;
+      margin-top: 60px;
+      border-top: 2px solid #3182ce;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 30px;
+    }
+
+    .footer-section h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #3182ce;
+    }
+
+    .footer-section p {
+      color: #cbd5e0;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: #cbd5e0;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: #3182ce;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      background: #4a5568;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f7fafc;
+      transition: background 0.2s ease;
+    }
+
+    .social-links a:hover {
+      background: #3182ce;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 30px;
+      border-top: 1px solid #4a5568;
+      color: #a0aec0;
+    }
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+      grid-column: 1 / -1;
+    }
+
+    .progress-bar {
+      width: 100%;
+      max-width: 250px;
+      height: 5px;
+      background: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      width: 0;
+      height: 100%;
+      background: #3182ce;
+      animation: progress 2s ease-in-out infinite;
+    }
+
+    @keyframes progress {
+      0% { width: 0; }
+      50% { width: 70%; }
+      100% { width: 0; }
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #3182ce;
+      color: #ffffff;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease;
+      z-index: 1000;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: #2b6cb0;
+    }
+
+    .notification {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #3182ce;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(-15px);
+      transition: all 0.3s ease;
+      z-index: 10000;
+    }
+
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .navbar-content {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 15px;
+      }
+
+      .navbar-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .search-input {
+        width: 100%;
+      }
+
+      .search-input:focus {
+        width: 100%;
+      }
+
+      .container {
+        margin-top: 120px;
+        padding: 0 15px;
+      }
+
+      .page-title {
+        font-size: 2rem;
+      }
+
+      .post-content-wrapper {
+        padding: 15px;
+      }
+
+      .comment-form {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+      }
+
+      .back-to-top {
+        bottom: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+      }
+
+      .post-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-brand">
+        <i class="fas fa-home"></i>
+        Family Hub
+      </div>
+      <div class="navbar-nav">
+        <a href="posts.html"><i class="fas fa-newspaper"></i> Posts</a>
+        <a href="events.html"><i class="fas fa-calendar"></i> Events</a>
+        <a href="recipes.html"><i class="fas fa-utensils"></i> Recipes</a>
+        <a href="books.html" class="active"><i class="fas fa-book"></i> Books</a>
+        <a href="blogs.html"><i class="fas fa-blog"></i> Blogs</a>
+        <a href="add-post.html"><i class="fas fa-plus"></i> Add Post</a>
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" placeholder="Search books..." id="search-input">
+        </div>
+        <button id="logout" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Family Books</h1>
+      <p class="page-subtitle">Discover our curated collection of favorite family books</p>
+    </div>
+    <div id="posts-container">
+      <div class="loading">
+        <div class="progress-bar">
+          <div class="progress-bar-inner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Family Hub</h4>
+        <p>Connecting families through shared moments, memories, and love. Your digital family home where every story matters.</p>
+        <div class="social-links">
+          <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <div class="footer-links">
+          <a href="posts.html">Family Posts</a>
+          <a href="events.html">Events & Celebrations</a>
+          <a href="recipes.html">Family Recipes</a>
+          <a href="books.html">Reading Corner</a>
+          <a href="blogs.html">Family Blogs</a>
+          <a href="add-post.html">Add New Post</a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <div class="footer-links">
+          <a href="#">Help Center</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact Us</a>
+          <a href="#">Community Guidelines</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Stay Connected</h4>
+        <p>Get the latest updates about your family's activities and never miss a special moment.</p>
+        <p style="margin-top: 12px; color: #3182ce;"><i class="fas fa-heart"></i> Made with love</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Family Hub. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Static book data with download links
+    const booksData = [
+      {
+        id: 'book1',
+        posterName: 'John Doe',
+        title: 'To Kill a Mockingbird',
+        description: 'A classic novel about justice and morality.',
+        content: 'Harper Lee\'s masterpiece explores themes of racial injustice and the loss of innocence in a small Southern town...',
+        imageLink: 'https://images.theconversation.com/files/45159/original/rptgtpxd-1396254731.jpg?ixlib=rb-4.1.0&q=45&auto=format&w=754&fit=clip',
+        downloadLink: 'https://example.com/to-kill-a-mockingbird.pdf',
+        timestamp: 1626451200000,
+        likes: { user1: { userId: 'user1', timestamp: 1626451200000 } },
+        comments: [
+          { email: 'alice@example.com', text: 'A timeless read!', timestamp: 1626451300000 },
+          { email: 'bob@example.com', text: 'Loved the characters.', timestamp: 1626451400000 }
+        ]
+      },
+      {
+        id: 'book2',
+        posterName: 'Jane Smith',
+        title: '1984',
+        description: 'A dystopian tale of surveillance and control.',
+        content: 'George Orwell\'s novel depicts a totalitarian society where Big Brother watches every move...',
+        imageLink: 'https://s26162.pcdn.co/wp-content/uploads/sites/2/2022/08/Books.jpg',
+        downloadLink: 'https://example.com/1984.pdf',
+        timestamp: 1626451100000,
+        likes: {},
+        comments: [
+          { email: 'carol@example.com', text: 'Chilling and thought-provoking.', timestamp: 1626451200000 }
+        ]
+      },
+      {
+        id: 'book3',
+        posterName: 'Emily Johnson',
+        title: 'Pride and Prejudice',
+        description: 'A romantic novel about love and social class.',
+        content: 'Jane Austen\'s witty novel follows Elizabeth Bennet as she navigates societal expectations...',
+        imageLink: 'https://greenvillejournal.com/wp-content/uploads/2024/12/books-iStock-1481862788-edited.jpg',
+        downloadLink: 'https://example.com/pride-and-prejudice.pdf',
+        timestamp: 1626451000000,
+        likes: { user2: { userId: 'user2', timestamp: 1626451000000 } },
+        comments: []
+      }
+    ];
+
+    const postsContainer = document.getElementById('posts-container');
+    const searchInput = document.getElementById('search-input');
+    const backToTopBtn = document.getElementById('back-to-top');
+    const logoutBtn = document.getElementById('logout');
+
+    // Simulate logout
+    logoutBtn.addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    // Helper functions
+    function getUserInitials(name) {
+      if (!name) return '?';
+      return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    }
+
+    function timeAgo(timestamp) {
+      const now = Date.now();
+      const diff = now - timestamp;
+      const minutes = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      return minutes < 1 ? 'Just now' : minutes < 60 ? `${minutes}m ago` :
+             hours < 24 ? `${hours}h ago` : days < 7 ? `${days}d ago` :
+             new Date(timestamp).toLocaleDateString();
+    }
+
+    // Client-side comments storage
+    let userComments = JSON.parse(localStorage.getItem('bookComments')) || {};
+
+    // Render books
+    function renderBooks(books) {
+      postsContainer.innerHTML = '';
+      const filteredBooks = books.filter(book => 
+        !searchInput.value || 
+        book.title.toLowerCase().includes(searchInput.value.toLowerCase()) || 
+        (book.description && book.description.toLowerCase().includes(searchInput.value.toLowerCase())) || 
+        (book.content && book.content.toLowerCase().includes(searchInput.value.toLowerCase()))
+      );
+
+      if (filteredBooks.length === 0) {
+        postsContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <h3>No books found</h3>
+            <p>Try a different search term!</p>
+          </div>`;
+        return;
+      }
+
+      filteredBooks.forEach((book, index) => {
+        const likesCount = book.likes ? Object.keys(book.likes).length : 0;
+        const commentsCount = (book.comments || []).length + (userComments[book.id] || []).length;
+        const userInitials = getUserInitials(book.posterName);
+        const isLiked = book.likes && Object.keys(book.likes).length > 0;
+
+        const commentsHtml = [
+          ...(book.comments || []),
+          ...(userComments[book.id] || [])
+        ].sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0))
+          .map(comment => `
+            <div class="comment">
+              <div class="comment-header">
+                <div class="comment-avatar">${getUserInitials(comment.email)}</div>
+                <div class="comment-author">${comment.email || 'Anonymous'}</div>
+              </div>
+              <div class="comment-text">${comment.text}</div>
+              <div class="comment-time">${timeAgo(comment.timestamp)}</div>
+            </div>
+          `).join('') || '<p style="color: #a0aec0; text-align: center; padding: 15px;">No comments yet. Be the first to comment!</p>';
+
+        const postElement = document.createElement('div');
+        postElement.className = 'post';
+        postElement.innerHTML = `
+          <div class="post-content-wrapper">
+            <div class="post-header">
+              <div class="post-avatar">${userInitials}</div>
+              <div class="post-info">
+                <h3>${book.title}</h3>
+                <div class="post-meta">
+                  <span><i class="fas fa-user"></i> ${book.posterName}</span>
+                  <span><i class="fas fa-clock"></i> ${timeAgo(book.timestamp)}</span>
+                </div>
+              </div>
+            </div>
+            ${book.imageLink ? `
+              <div class="post-image-container">
+                <img src="${book.imageLink}" alt="${book.title}" class="post-image" onerror="this.src='https://via.placeholder.com/200';">
+              </div>
+            ` : ''}
+            ${book.description ? `<div class="post-description">${book.description}</div>` : ''}
+            ${book.content ? `<div class="post-content">${book.content}</div>` : ''}
+            <div class="post-actions">
+              <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${book.id}')">
+                <i class="fas fa-heart"></i>
+                <span class="like-count">${likesCount} ${likesCount === 1 ? 'Like' : 'Likes'}</span>
+              </button>
+              <a href="${book.downloadLink}" class="download-btn" target="_blank">
+                <i class="fas fa-download"></i> Download Book
+              </a>
+              <div class="post-stats">
+                <span><i class="fas fa-comments"></i> ${commentsCount} ${commentsCount === 1 ? 'Comment' : 'Comments'}</span>
+              </div>
+            </div>
+            <div class="comment-section">
+              <h4 data-post-id="${book.id}"><i class="fas fa-comments"></i> Comments</h4>
+              <div class="comments-list">${commentsHtml}</div>
+              <div class="comment-form">
+                <textarea class="comment-input" placeholder="Share your thoughts..." rows="2" id="comment-${book.id}"></textarea>
+                <button class="comment-btn" onclick="addComment('${book.id}')">
+                  <i class="fas fa-paper-plane"></i> Comment
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        postsContainer.appendChild(postElement);
+
+        // Comment toggle
+        const header = postElement.querySelector('.comment-section h4');
+        const commentsList = postElement.querySelector('.comments-list');
+        header.addEventListener('click', (e) => {
+          e.stopPropagation();
+          commentsList.classList.toggle('active');
+          const comments = commentsList.querySelectorAll('.comment');
+          if (commentsList.classList.contains('active')) {
+            comments.forEach(comment => comment.classList.add('active'));
+          } else {
+            comments.forEach(comment => comment.classList.remove('active'));
+          }
+        });
+      });
+    }
+
+    // Search functionality
+    searchInput.addEventListener('input', () => {
+      renderBooks(booksData);
+    });
+
+    // Like functionality (client-side)
+    function toggleLike(bookId) {
+      const book = booksData.find(b => b.id === bookId);
+      if (!book.likes) book.likes = {};
+      const userId = 'user-static';
+      if (book.likes[userId]) {
+        delete book.likes[userId];
+      } else {
+        book.likes[userId] = { userId, timestamp: Date.now() };
+      }
+      renderBooks(booksData);
+    }
+
+    // Comment functionality (client-side, stored in localStorage)
+    function addComment(bookId) {
+      const commentInput = document.getElementById(`comment-${bookId}`);
+      const commentText = commentInput.value.trim();
+      
+      if (commentText) {
+        const commentBtn = commentInput.nextElementSibling;
+        const originalText = commentBtn.innerHTML;
+        commentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+        commentBtn.disabled = true;
+
+        setTimeout(() => {
+          if (!userComments[bookId]) userComments[bookId] = [];
+          userComments[bookId].push({
+            email: 'user@example.com',
+            text: commentText,
+            timestamp: Date.now()
+          });
+          localStorage.setItem('bookComments', JSON.stringify(userComments));
+          commentInput.value = '';
+          commentBtn.innerHTML = originalText;
+          commentBtn.disabled = false;
+          showNotification('Comment posted successfully!');
+          renderBooks(booksData);
+          const commentsList = commentInput.closest('.comment-section').querySelector('.comments-list');
+          commentsList.classList.add('active');
+          commentsList.querySelectorAll('.comment').forEach(comment => comment.classList.add('active'));
+        }, 500);
+      }
+    }
+
+    // Notification function
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      setTimeout(() => notification.classList.add('show'), 100);
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => document.body.removeChild(notification), 300);
+      }, 3000);
+    }
+
+    // Enter key support for comments
+    document.addEventListener('keypress', (e) => {
+      if (e.target.classList.contains('comment-input') && e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const bookId = e.target.id.replace('comment-', '');
+        addComment(bookId);
+      }
+    });
+
+    // Click outside to collapse comments
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.comment-section')) {
+        document.querySelectorAll('.comments-list.active').forEach(list => {
+          list.classList.remove('active');
+          list.querySelectorAll('.comment').forEach(comment => comment.classList.remove('active'));
+        });
+      }
+    });
+
+    // Image modal functionality
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('post-image')) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+          cursor: pointer;
+        `;
+        const img = document.createElement('img');
+        img.src = e.target.src;
+        img.style.cssText = `
+          max-width: 85%;
+          max-height: 85%;
+          border-radius: 8px;
+        `;
+        modal.appendChild(img);
+        document.body.appendChild(modal);
+        modal.addEventListener('click', () => document.body.removeChild(modal));
+      }
+    });
+
+    // Back to top functionality
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Simulate loading
+    setTimeout(() => {
+      renderBooks(booksData);
+    }, 1000);
+  </script>
+</body>
+</html>
