@@ -151,38 +151,22 @@
       box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
     }
     .content {
-      margin-top: 104px;
+      margin-top: 48px;
       width: 100%;
       padding: 0;
       overflow-x: hidden;
     }
     .container {
-      max-width: 800px;
+      max-width: 1200px;
       width: 100%;
       margin: 0 auto;
       padding: 20px 8px;
       overflow-x: hidden;
     }
-    .page-header {
-      text-align: center;
-      margin-bottom: 40px;
-      padding: 20px 0;
-    }
-    .page-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: #2d3748;
-      margin-bottom: 10px;
-    }
-    .page-subtitle {
-      font-size: 1.1rem;
-      color: #718096;
-      font-weight: 400;
-    }
     #posts-container {
       display: flex;
       flex-direction: column;
-      gap: 30px;
+      gap: 40px;
       margin-bottom: 80px;
       width: 100%;
     }
@@ -190,12 +174,13 @@
       background: white;
       border: 2px solid transparent;
       border-radius: 12px;
-      padding: 20px;
+      padding: 0;
       transition: all 0.3s ease;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeInUp 0.5s ease forwards;
       width: 100%;
+      overflow: hidden;
     }
     .post:nth-child(1) { animation-delay: 0.1s; }
     .post:nth-child(2) { animation-delay: 0.2s; }
@@ -210,13 +195,35 @@
       border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
     }
     .post-content-wrapper {
-      padding: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      min-height: 400px;
+    }
+    .post-image-container {
+      flex: 0 0 50%;
+      overflow: hidden;
+      position: relative;
+    }
+    .post-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      border-right: 1px solid #e2e8f0;
+    }
+    .post:hover .post-image { transform: scale(1.05); }
+    .post-text-container {
+      flex: 0 0 50%;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
     .post-header {
       display: flex;
       align-items: center;
       gap: 15px;
-      margin-bottom: 20px;
     }
     .post-avatar {
       width: 50px;
@@ -250,37 +257,20 @@
       align-items: center;
       gap: 6px;
     }
-    .post-image-container {
-      margin: 20px 0;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .post-image {
-      width: 100%;
-      height: auto;
-      max-height: 500px;
-      object-fit: contain;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-      border: 1px solid #e2e8f0;
-    }
-    .post:hover .post-image { transform: scale(1.05); }
     .post-description {
       color: #2d3748;
       font-size: 1.1rem;
       line-height: 1.7;
-      margin-bottom: 20px;
       font-weight: 500;
     }
     .post-content {
       color: #4a5568;
       font-size: 1rem;
       line-height: 1.8;
-      margin-bottom: 25px;
       white-space: pre-wrap;
+      flex-grow: 1;
     }
     .post-footer {
-      margin-top: 20px;
       padding-top: 15px;
       border-top: 1px solid #e2e8f0;
       color: #718096;
@@ -292,9 +282,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 15px 0;
+      padding: 15px 30px;
       border-top: 1px solid #e2e8f0;
-      margin-top: 20px;
     }
     .like-btn {
       background: linear-gradient(135deg, #11998e, #38ef7d);
@@ -324,7 +313,7 @@
       font-weight: 500;
     }
     .comment-section {
-      margin-top: 20px;
+      margin: 0 30px 30px;
       padding-top: 20px;
       border-top: 1px solid #e2e8f0;
       background: rgba(255, 255, 255, 0.05);
@@ -702,22 +691,28 @@
       }
       .search-container.mobile-only.active { display: flex; }
       .container { padding: 15px 8px; }
-      .page-title { font-size: 2rem; }
-      .page-subtitle { font-size: 1rem; }
       .post { padding: 15px; }
-      .post-content-wrapper { padding: 15px; }
+      .post-content-wrapper {
+        flex-direction: column;
+        min-height: auto;
+      }
+      .post-image-container {
+        flex: none;
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 0 0 20px;
+      }
+      .post-image { border: 1px solid #e2e8f0; height: auto; max-height: 400px; }
+      .post-text-container { padding: 0; }
       .post-header { gap: 10px; }
       .post-avatar { width: 40px; height: 40px; font-size: 16px; }
       .post-info h3 { font-size: 1.6rem; }
       .post-meta { font-size: 0.85rem; gap: 10px; }
-      .post-image { max-height: 400px; }
       .post-description { font-size: 1rem; }
       .post-content { font-size: 0.95rem; }
       .post-footer { font-size: 0.85rem; }
       .post-actions { padding: 12px 0; }
-      .like-btn, .comment-btn { font-size: 0.9rem; padding: 8px 15px; }
-      .post-stats { font-size: 0.85rem; }
-      .comment-section { padding-top: 15px; }
+      .comment-section { margin: 0 0 15px; padding-top: 15px; }
       .comment-section h4 { font-size: 1rem; }
       .comment { padding: 12px 15px; margin-bottom: 10px; }
       .comment-avatar { width: 30px; height: 30px; font-size: 12px; }
@@ -725,13 +720,13 @@
       .comment-text { font-size: 0.9rem; }
       .comment-time { font-size: 0.8rem; }
       .comment-input { font-size: 0.9rem; padding: 8px 12px; }
+      .like-btn, .comment-btn { font-size: 0.9rem; padding: 8px 15px; }
+      .post-stats { font-size: 0.85rem; }
       .footer-content { grid-template-columns: 1fr; gap: 20px; text-align: center; padding: 0 8px; }
       .social-links { justify-content: center; }
     }
     @media (max-width: 480px) {
       .navbar-brand { font-size: 1.2rem; }
-      .page-title { font-size: 1.8rem; }
-      .page-subtitle { font-size: 0.9rem; }
       .post-info h3 { font-size: 1.4rem; }
       .post-description { font-size: 0.95rem; }
       .post-content { font-size: 0.9rem; }
@@ -774,10 +769,6 @@
       <input type="text" class="search-input" placeholder="Search blogs..." id="search-input-mobile" aria-label="Search blogs">
     </div>
     <div class="container">
-      <div class="page-header">
-        <h1 class="page-title">Family Blogs</h1>
-        <p class="page-subtitle">Share your stories, thoughts, and experiences with your loved ones</p>
-      </div>
       <div id="posts-container">
         <div class="loading">Loading blogs...</div>
       </div>
@@ -978,7 +969,7 @@
           postsContainer.innerHTML = `
             <div class="empty-state">
               <i class="fas fa-blog"></i>
-              <h3>No family blogs yet</h3>
+              <h3>No blogs yet</h3>
               <p>Be the first to share a thoughtful story!</p>
             </div>`;
           return;
@@ -1029,44 +1020,46 @@
           postElement.style.animationDelay = `${index * 0.1}s`;
           postElement.innerHTML = `
             <div class="post-content-wrapper">
-              <div class="post-header">
-                <div class="post-avatar">${userInitials}</div>
-                <div class="post-info">
-                  <h3>${post.title || 'Untitled'}</h3>
-                  <div class="post-meta">
-                    <span><i class="fas fa-user"></i> ${post.posterName || 'Anonymous'}</span>
-                    <span><i class="fas fa-clock"></i> ${timeAgo(post.timestamp)}</span>
-                  </div>
-                </div>
-              </div>
               ${post.imageLink ? `
                 <div class="post-image-container">
                   <img src="${post.imageLink}" alt="${post.title || 'Image'}" class="post-image" onerror="this.parentElement.style.display='none'">
                 </div>
-              ` : ''}
-              <div class="post-description">${post.description || 'No description'}</div>
-              ${post.content ? `<div class="post-content">${post.content}</div>` : ''}
-              <div class="post-footer">
-                Written and compiled by ${post.posterName || 'Anonymous'}, on ${new Date(post.timestamp).toLocaleDateString()}
+              ` : '<div class="post-image-container" style="display: none;"></div>'}
+              <div class="post-text-container">
+                <div class="post-header">
+                  <div class="post-avatar">${userInitials}</div>
+                  <div class="post-info">
+                    <h3>${post.title || 'Untitled'}</h3>
+                    <div class="post-meta">
+                      <span><i class="fas fa-user"></i> ${post.posterName || 'Anonymous'}</span>
+                      <span><i class="fas fa-clock"></i> ${timeAgo(post.timestamp)}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="post-description">${post.description || 'No description'}</div>
+                ${post.content ? `<div class="post-content">${post.content}</div>` : ''}
+                <div class="post-footer">
+                  Written and compiled by ${post.posterName || 'Anonymous'}, on ${new Date(post.timestamp).toLocaleDateString()}
+                </div>
               </div>
-              <div class="post-actions">
-                <button class="like-btn ${isLiked ? 'liked' : ''}" data-post-id="${postId}">
-                  <i class="fas fa-heart"></i>
-                  <span>${likesCount} ${likesCount === 1 ? 'Like' : 'Likes'}</span>
+            </div>
+            <div class="post-actions">
+              <button class="like-btn ${isLiked ? 'liked' : ''}" data-post-id="${postId}">
+                <i class="fas fa-heart"></i>
+                <span>${likesCount} ${likesCount === 1 ? 'Like' : 'Likes'}</span>
+              </button>
+              <div class="post-stats">
+                <span><i class="fas fa-comments"></i> ${commentsCount} ${commentsCount === 1 ? 'Comment' : 'Comments'}</span>
+              </div>
+            </div>
+            <div class="comment-section">
+              <h4 data-post-id="${postId}" aria-label="Toggle comments"><i class="fas fa-comments"></i> Comments</h4>
+              <div class="comments-list">${commentsHtml}</div>
+              <div class="comment-form">
+                <textarea class="comment-input" placeholder="Share your thoughts..." rows="3" id="comment-${postId}" aria-label="Add comment"></textarea>
+                <button class="comment-btn" data-post-id="${postId}">
+                  <i class="fas fa-paper-plane"></i> Comment
                 </button>
-                <div class="post-stats">
-                  <span><i class="fas fa-comments"></i> ${commentsCount} ${commentsCount === 1 ? 'Comment' : 'Comments'}</span>
-                </div>
-              </div>
-              <div class="comment-section">
-                <h4 data-post-id="${postId}" aria-label="Toggle comments"><i class="fas fa-comments"></i> Comments</h4>
-                <div class="comments-list">${commentsHtml}</div>
-                <div class="comment-form">
-                  <textarea class="comment-input" placeholder="Share your thoughts..." rows="3" id="comment-${postId}" aria-label="Add comment"></textarea>
-                  <button class="comment-btn" data-post-id="${postId}">
-                    <i class="fas fa-paper-plane"></i> Comment
-                  </button>
-                </div>
               </div>
             </div>
           `;
