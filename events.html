@@ -110,6 +110,45 @@
       padding: 8px;
     }
 
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      padding: 8px 12px 8px 35px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 0.9rem;
+      outline: none;
+      width: 160px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      min-height: 44px;
+    }
+
+    .search-input:focus {
+      width: 200px;
+      border-color: #667eea;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 0.9rem;
+    }
+
     .logout-btn {
       background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
       color: white;
@@ -131,66 +170,16 @@
       box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
     }
 
-    .search-container {
-      max-width: 1200px;
-      margin: 8px auto;
-      padding: 0 15px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      transition: transform 0.3s ease;
-      z-index: 900;
-    }
-
-    .search-container.hidden {
-      transform: translateY(-100%);
-    }
-
-    .search-input {
-      padding: 8px 12px 8px 35px;
-      border: 2px solid #e2e8f0;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.9);
-      color: #2d3748;
-      font-size: 0.9rem;
-      outline: none;
-      width: 100%;
-      max-width: 300px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      min-height: 44px;
-    }
-
-    .search-input:focus {
-      width: 100%;
-      max-width: 350px;
-      border-color: #667eea;
-      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
-    }
-
-    .search-input::placeholder {
-      color: #a0aec0;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 25px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #2d3748;
-      font-size: 0.9rem;
-    }
-
     .content {
       margin-top: 60px;
       width: 100%;
-      padding: 0 8px;
+      padding: 0 15px;
     }
 
     .page-header {
       text-align: center;
       margin-bottom: 15px;
-      padding: 8px 8px 0;
+      padding: 8px 0;
     }
 
     .page-title {
@@ -234,26 +223,88 @@
       background: linear-gradient(135deg, #764ba2, #667eea);
     }
 
+    .tag-filter {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: #e2e8f0;
+      color: #2d3748;
+      padding: 6px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .tag.active {
+      background: #667eea;
+      color: white;
+    }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
     .event-section {
       background: white;
-      border-bottom: 2px solid #2d3748;
-      padding: 15px 0;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.3s ease;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 15px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.5s ease forwards;
     }
 
     .event-section:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
+    }
+
+    .event-section.featured {
+      grid-column: span 2;
+      background: linear-gradient(135deg, #f8f9fa, #e2e8f0);
+      border: 2px solid #667eea;
+      position: relative;
+    }
+
+    .event-section.featured::before {
+      content: 'Featured';
+      position: absolute;
+      top: 10px;
+      left: -40px;
+      background: linear-gradient(135deg, #ff6b6b, #feca57);
+      color: white;
+      padding: 5px 40px;
+      transform: rotate(-45deg);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .event-inner {
-      max-width: 1200px;
-      width: 100%;
-      padding: 0 8px;
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
@@ -262,13 +313,16 @@
     .event-image {
       max-width: 300px;
       height: auto;
-      aspect-ratio: auto;
       border-radius: 8px;
       margin: 0 15px 12px 0;
       float: left;
-      display: block;
       object-fit: cover;
       border: 1px solid #e2e8f0;
+      transition: transform 0.3s ease;
+    }
+
+    .event-section:hover .event-image {
+      transform: scale(1.05);
     }
 
     .event-content {
@@ -285,11 +339,13 @@
       letter-spacing: 0.02em;
       text-transform: capitalize;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-      transition: color 0.3s ease;
+      transition: all 0.3s ease;
     }
 
-    .event-title:hover {
-      color: #667eea;
+    .event-section:hover .event-title {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .event-meta {
@@ -298,6 +354,22 @@
       color: #718096;
       margin-bottom: 10px;
       letter-spacing: 0.03em;
+    }
+
+    .event-tags {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .event-tag {
+      background: #e2e8f0;
+      color: #2d3748;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
     }
 
     .event-content p.description {
@@ -317,6 +389,14 @@
       margin-bottom: 12px;
     }
 
+    .venue-map {
+      max-width: 300px;
+      height: 150px;
+      border-radius: 8px;
+      margin-top: 8px;
+      display: block;
+    }
+
     .event-content .countdown {
       font-size: 0.95rem;
       font-weight: 700;
@@ -328,6 +408,20 @@
       border-radius: 8px;
       display: inline-block;
       transition: background 0.3s ease;
+    }
+
+    .countdown-progress {
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .countdown-progress-bar {
+      height: 100%;
+      background: linear-gradient(135deg, #38a169, #68d391);
+      transition: width 0.3s ease;
     }
 
     .event-content strong {
@@ -346,11 +440,10 @@
 
     .comment-section {
       margin-top: 12px;
-      padding: 12px 8px 0;
+      padding: 12px 0 0;
       border-top: 1px solid #e2e8f0;
       display: none;
       width: 100%;
-      max-width: 1200px;
     }
 
     .comment-section.active {
@@ -438,7 +531,7 @@
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 8px;
+      padding: 0 15px;
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 30px;
@@ -625,8 +718,7 @@
         right: 0;
         width: 70%;
         max-width: 300px;
-        height: 100vh;
-        background: #2d3748;
+        background: rgba(45, 55, 72, 0.95);
         flex-direction: column;
         padding: 20px;
         border-left: 1px solid rgba(255, 255, 255, 0.2);
@@ -634,6 +726,7 @@
         transform: translateX(100%);
         transition: transform 0.3s ease;
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        height: auto;
       }
 
       .navbar-nav.active {
@@ -661,6 +754,40 @@
         margin-top: 50px;
       }
 
+      .search-container {
+        max-width: 1200px;
+        margin: 8px auto;
+        padding: 0 8px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        transition: transform 0.3s ease;
+        z-index: 900;
+      }
+
+      .search-container.hidden {
+        transform: translateY(-100%);
+      }
+
+      .search-input {
+        border: 2px solid #e2e8f0;
+        background: rgba(255, 255, 255, 0.9);
+        color: #2d3748;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .search-input:focus {
+        max-width: 350px;
+        border-color: #667eea;
+        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+      }
+
+      .search-icon {
+        color: #2d3748;
+        left: 25px;
+      }
+
       .page-header {
         padding: 8px;
       }
@@ -683,12 +810,16 @@
         padding: 8px;
       }
 
-      .search-container {
-        padding: 0 8px;
+      .event-grid {
+        grid-template-columns: 1fr;
       }
 
-      .event-inner {
-        padding: 0 8px;
+      .event-section {
+        padding: 12px;
+      }
+
+      .event-section.featured {
+        grid-column: span 1;
       }
 
       .event-image {
@@ -713,8 +844,12 @@
         font-size: 0.8rem;
       }
 
+      .event-tags {
+        font-size: 0.75rem;
+      }
+
       .comment-section {
-        padding: 8px;
+        padding: 8px 0;
       }
 
       .comment-section h4 {
@@ -750,14 +885,6 @@
 
       .page-title {
         font-size: 1.3rem;
-      }
-
-      .event-inner {
-        padding: 0 8px;
-      }
-
-      .event-section {
-        padding: 12px 0;
       }
 
       .event-title {
@@ -801,6 +928,10 @@
         <a href="books.html"><i class="fas fa-book"></i><span>Books</span></a>
         <a href="blogs.html"><i class="fas fa-blog"></i><span>Blogs</span></a>
         <a href="add-post.html"><i class="fas fa-plus"></i><span>Add Post</span></a>
+        <div class="search-container">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" placeholder="Search events..." id="search-input" aria-label="Search events">
+        </div>
         <button id="logout" class="logout-btn">
           <i class="fas fa-sign-out-alt"></i><span>Logout</span>
         </button>
@@ -816,11 +947,12 @@
         <div class="tab" data-tab="past" role="tab" aria-selected="false">Past/Archived</div>
       </div>
     </div>
-    <div class="search-container">
+    <div class="search-container mobile-only">
       <i class="fas fa-search search-icon"></i>
-      <input type="text" class="search-input" placeholder="Search events..." id="search-input" aria-label="Search events">
+      <input type="text" class="search-input" placeholder="Search events..." id="search-input-mobile" aria-label="Search events">
     </div>
-    <div id="posts-container" class="loading-spinner">Loading events...</div>
+    <div class="tag-filter" id="tag-filter"></div>
+    <div id="posts-container" class="event-grid"></div>
   </div>
 
   <footer class="footer">
@@ -893,7 +1025,9 @@
     const postsContainer = document.getElementById('posts-container');
     const logoutBtn = document.getElementById('logout');
     const searchInput = document.getElementById('search-input');
-    const searchContainer = document.querySelector('.search-container');
+    const searchInputMobile = document.getElementById('search-input-mobile');
+    const searchContainerMobile = document.querySelector('.search-container.mobile-only');
+    const tagFilter = document.getElementById('tag-filter');
     const tabs = document.querySelectorAll('.tab');
     const navbar = document.querySelector('.navbar');
     const hamburger = document.querySelector('.hamburger');
@@ -904,6 +1038,7 @@
     let countdownIntervals = [];
     let lastScrollY = 0;
     let isScrolling;
+    let selectedTag = null;
 
     // Auth State Listener
     auth.onAuthStateChanged(user => {
@@ -933,18 +1068,16 @@
 
       if (currentScrollY > lastScrollY && currentScrollY > 50) {
         navbar.classList.add('hidden');
-        searchContainer.classList.add('hidden');
+        if (isMobile) searchContainerMobile.classList.add('hidden');
         navbarNav.classList.remove('active');
         hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
         hamburger.setAttribute('aria-label', 'Open menu');
       } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
         navbar.classList.remove('hidden');
-        searchContainer.classList.remove('hidden');
+        if (isMobile) searchContainerMobile.classList.remove('hidden');
       }
 
-      // Show Back to Top button
       backToTop.classList.toggle('show', currentScrollY > 300);
-
       lastScrollY = currentScrollY;
       isScrolling = setTimeout(() => {}, 150);
     });
@@ -979,6 +1112,7 @@
           const toggleBtn = document.querySelector(`.toggle-comments-btn[data-event-id="${eventId}"]`);
           const comments = section.querySelectorAll('.comment').length || 0;
           toggleBtn.innerHTML = `<i class="fas fa-comment"></i> Comments (${comments})`;
+          toggleBtn.setAttribute('aria-label', `Show comments for ${section.querySelector('.event-title').textContent}`);
         }
       });
       if (!e.target.closest('.navbar-content') && !e.target.closest('.hamburger')) {
@@ -998,37 +1132,57 @@
     });
 
     // Search Functionality
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      clearCountdownIntervals();
-      renderEvents(query);
+    [searchInput, searchInputMobile].forEach(input => {
+      input.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        clearCountdownIntervals();
+        renderEvents(query);
+      });
     });
 
+    // Tag Filtering
+    function renderTagFilter() {
+      const tags = [...new Set(allEvents.flatMap(event => event.tags || []))];
+      tagFilter.innerHTML = tags.length ? tags.map(tag => `
+        <div class="tag" data-tag="${tag}">${tag}</div>
+      `).join('') : '';
+      document.querySelectorAll('.tag').forEach(tag => {
+        tag.addEventListener('click', () => {
+          document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+          tag.classList.add('active');
+          selectedTag = tag.getAttribute('data-tag');
+          clearCountdownIntervals();
+          renderEvents();
+        });
+      });
+    }
+
     // Advanced Countdown Timer
-    function startCountdown(eventId, eventDate, eventTitle, element) {
+    function startCountdown(eventId, eventDateTime, eventTitle, element) {
+      const eventTime = new Date(eventDateTime).getTime();
+      const totalDuration = eventTime - new Date(allEvents.find(e => e.id === eventId).timestamp);
       function updateCountdown() {
         const now = new Date().getTime();
-        const eventTime = new Date(eventDate).getTime();
         const diff = eventTime - now;
-
         if (diff <= 0) {
           element.innerHTML = `<strong>Event Started:</strong> ${eventTitle}`;
           return;
         }
-
         const weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
         const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
         let countdownText = '';
         if (weeks > 0) countdownText += `${weeks}w `;
         if (days > 0 || weeks > 0) countdownText += `${days}d `;
         countdownText += `${hours}h ${minutes}m ${seconds}s`;
-        element.innerHTML = `<strong>Did you know that we only have</strong> ${countdownText} <strong>until ${eventTitle}?</strong>`;
+        const progress = Math.max(0, (totalDuration - diff) / totalDuration * 100);
+        element.innerHTML = `
+          <strong>Did you know that we only have</strong> ${countdownText} <strong>until ${eventTitle}?</strong>
+          <div class="countdown-progress"><div class="countdown-progress-bar" style="width: ${progress}%"></div></div>
+        `;
       }
-
       updateCountdown();
       const interval = setInterval(updateCountdown, 1000);
       countdownIntervals.push({ eventId, interval });
@@ -1051,27 +1205,30 @@
         : allEvents;
       const eventsToShow = currentTab === 'upcoming'
         ? filteredEvents
-            .filter(event => new Date(event.date) > new Date())
-            .sort((a, b) => new Date(a.date) - new Date(b.date))
+            .filter(event => new Date(`${event.date}T${event.time || '00:00'}`) > new Date())
+            .sort((a, b) => new Date(`${a.date}T${a.time || '00:00'}`) - new Date(`${b.date}T${b.time || '00:00'}`))
         : filteredEvents
-            .filter(event => new Date(event.date) <= new Date())
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
+            .filter(event => new Date(`${event.date}T${event.time || '00:00'}`) <= new Date())
+            .sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
       postsContainer.innerHTML = '';
       if (eventsToShow.length) {
-        eventsToShow.forEach(event => {
+        eventsToShow.forEach((event, index) => {
           const id = event.id;
           const comments = event.comments ? Object.values(event.comments) : [];
+          const isFeatured = currentTab === 'upcoming' && index === 0;
           const postElement = document.createElement('div');
-          postElement.className = 'event-section';
+          postElement.className = `event-section ${isFeatured ? 'featured' : ''}`;
+          const venueMap = event.venue ? `<img src="https://maps.googleapis.com/maps/api/staticmap?center=${encodeURIComponent(event.venue)}&zoom=15&size=300x150&key=NO_API_KEY" alt="Map of ${event.venue}" class="venue-map">` : '';
           postElement.innerHTML = `
             <div class="event-inner">
               <img src="${event.imageLink || 'https://via.placeholder.com/300'}" alt="${event.title}" class="event-image">
               <div class="event-content">
                 <h3 class="event-title">${event.title}</h3>
                 <p class="event-meta">By: ${event.posterName} | Posted: ${new Date(event.timestamp).toLocaleString()}</p>
+                <div class="event-tags">${(event.tags || []).map(tag => `<span class="event-tag">${tag}</span>`).join('')}</div>
                 <p class="description"><strong>Description:</strong> ${event.description}</p>
-                ${event.venue ? `<div class="venue"><strong>Venue:</strong> ${event.venue}</div>` : ''}
-                <div class="event-date"><strong>Date:</strong> ${new Date(event.date).toLocaleString()}</div>
+                ${event.venue ? `<div class="venue"><strong>Venue:</strong> ${event.venue}${venueMap}</div>` : ''}
+                <div class="event-date"><strong>Date:</strong> ${new Date(`${event.date}T${event.time || '00:00'}`).toLocaleString()}</div>
                 ${currentTab === 'upcoming' ? `<div class="countdown" id="countdown-${id}"></div>` : ''}
               </div>
             </div>
@@ -1088,11 +1245,13 @@
               <button class="button" data-event-id="${id}" aria-label="Submit comment"><i class="fas fa-comment"></i> Comment</button>
             </div>
           `;
-          postsContainer.appendChild(postElement);
+          if (!selectedTag || (event.tags && event.tags.includes(selectedTag))) {
+            postsContainer.appendChild(postElement);
+          }
 
-          if (currentTab === 'upcoming' && new Date(event.date) > new Date()) {
+          if (currentTab === 'upcoming' && new Date(`${event.date}T${event.time || '00:00'}`) > new Date()) {
             const countdownElement = postElement.querySelector(`#countdown-${id}`);
-            startCountdown(id, event.date, event.title, countdownElement);
+            startCountdown(id, `${event.date}T${event.time || '00:00'}`, event.title, countdownElement);
           }
 
           // Toggle Comments
@@ -1149,6 +1308,7 @@
         allEvents = Object.entries(data).map(([id, event]) => ({ id, ...event }));
       }
       clearCountdownIntervals();
+      renderTagFilter();
       renderEvents();
     });
 
