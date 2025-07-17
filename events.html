@@ -84,6 +84,9 @@
       transition: all 0.3s ease;
       border: 1px solid rgba(255, 255, 255, 0.1);
       letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .navbar a:hover {
@@ -107,42 +110,6 @@
       padding: 8px;
     }
 
-    .search-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-input {
-      padding: 8px 12px 8px 35px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      font-size: 0.9rem;
-      outline: none;
-      width: 160px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-    }
-
-    .search-input:focus {
-      width: 200px;
-      border-color: #667eea;
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .search-input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 10px;
-      color: white;
-      font-size: 0.9rem;
-    }
-
     .logout-btn {
       background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
       color: white;
@@ -154,11 +121,64 @@
       font-size: 0.9rem;
       transition: all 0.3s ease;
       min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .logout-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+
+    .search-container {
+      max-width: 1200px;
+      margin: 8px auto;
+      padding: 0 15px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      transition: transform 0.3s ease;
+      z-index: 900;
+    }
+
+    .search-container.hidden {
+      transform: translateY(-100%);
+    }
+
+    .search-input {
+      padding: 8px 12px 8px 35px;
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #2d3748;
+      font-size: 0.9rem;
+      outline: none;
+      width: 100%;
+      max-width: 300px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      min-height: 44px;
+    }
+
+    .search-input:focus {
+      width: 100%;
+      max-width: 350px;
+      border-color: #667eea;
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+    }
+
+    .search-input::placeholder {
+      color: #a0aec0;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 25px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #2d3748;
+      font-size: 0.9rem;
     }
 
     .content {
@@ -313,8 +333,7 @@
     .event-content strong {
       color: #2d3748;
       font-weight: 700;
-      display: block;
-      margin-bottom: 4px;
+      display: inline;
       letter-spacing: 0.02em;
     }
 
@@ -528,6 +547,59 @@
       transform: translate(-50%, -50%) translateY(0);
     }
 
+    .loading-spinner {
+      text-align: center;
+      padding: 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .loading-spinner::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #667eea;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
     @media (max-width: 768px) {
       .navbar {
         padding: 8px 0;
@@ -548,42 +620,41 @@
 
       .navbar-nav {
         display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
+        position: fixed;
+        top: 0;
         right: 0;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
         background: #2d3748;
         flex-direction: column;
-        padding: 8px;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-left: 1px solid rgba(255, 255, 255, 0.2);
         z-index: 999;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
       }
 
       .navbar-nav.active {
         display: flex;
+        transform: translateX(0);
       }
 
       .navbar a {
-        padding: 8px;
-        font-size: 0.9rem;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        padding: 10px;
+        font-size: 1rem;
+        justify-content: flex-start;
       }
 
       .navbar a span {
-        display: none;
+        display: inline;
       }
 
-      .search-container {
+      .logout-btn {
+        padding: 10px;
         width: 100%;
-        justify-content: center;
-      }
-
-      .search-input {
-        width: 100%;
-        max-width: 300px;
+        justify-content: flex-start;
       }
 
       .content {
@@ -610,6 +681,10 @@
         text-align: center;
         font-size: 0.9rem;
         padding: 8px;
+      }
+
+      .search-container {
+        padding: 0 8px;
       }
 
       .event-inner {
@@ -712,13 +787,13 @@
   </style>
 </head>
 <body>
-  <nav class="navbar">
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar-content">
       <div class="navbar-brand">
         <i class="fas fa-home"></i>
         Family Hub
       </div>
-      <button class="hamburger"><i class="fas fa-bars"></i></button>
+      <button class="hamburger" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
       <div class="navbar-nav">
         <a href="posts.html"><i class="fas fa-newspaper"></i><span>Posts</span></a>
         <a href="events.html" class="active"><i class="fas fa-calendar"></i><span>Events</span></a>
@@ -726,10 +801,6 @@
         <a href="books.html"><i class="fas fa-book"></i><span>Books</span></a>
         <a href="blogs.html"><i class="fas fa-blog"></i><span>Blogs</span></a>
         <a href="add-post.html"><i class="fas fa-plus"></i><span>Add Post</span></a>
-        <div class="search-container">
-          <i class="fas fa-search search-icon"></i>
-          <input type="text" class="search-input" placeholder="Search events..." id="search-input">
-        </div>
         <button id="logout" class="logout-btn">
           <i class="fas fa-sign-out-alt"></i><span>Logout</span>
         </button>
@@ -741,11 +812,15 @@
     <div class="page-header">
       <h1 class="page-title">Family Events</h1>
       <div class="tabs">
-        <div class="tab active" data-tab="upcoming">Upcoming</div>
-        <div class="tab" data-tab="past">Past/Archived</div>
+        <div class="tab active" data-tab="upcoming" role="tab" aria-selected="true">Upcoming</div>
+        <div class="tab" data-tab="past" role="tab" aria-selected="false">Past/Archived</div>
       </div>
     </div>
-    <div id="posts-container"></div>
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Search events..." id="search-input" aria-label="Search events">
+    </div>
+    <div id="posts-container" class="loading-spinner">Loading events...</div>
   </div>
 
   <footer class="footer">
@@ -754,10 +829,10 @@
         <h4>Family Hub</h4>
         <p>Connecting families through shared moments, memories, and love. Your digital family home where every story matters and brings us closer together.</p>
         <div class="social-links">
-          <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" title="Twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
       <div class="footer-section">
@@ -793,6 +868,8 @@
     </div>
   </footer>
 
+  <button class="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -816,10 +893,12 @@
     const postsContainer = document.getElementById('posts-container');
     const logoutBtn = document.getElementById('logout');
     const searchInput = document.getElementById('search-input');
+    const searchContainer = document.querySelector('.search-container');
     const tabs = document.querySelectorAll('.tab');
     const navbar = document.querySelector('.navbar');
     const hamburger = document.querySelector('.hamburger');
     const navbarNav = document.querySelector('.navbar-nav');
+    const backToTop = document.querySelector('.back-to-top');
     let allEvents = [];
     let currentTab = 'upcoming';
     let countdownIntervals = [];
@@ -843,6 +922,7 @@
       hamburger.innerHTML = navbarNav.classList.contains('active') ?
         `<i class="fas fa-times"></i>` :
         `<i class="fas fa-bars"></i>`;
+      hamburger.setAttribute('aria-label', navbarNav.classList.contains('active') ? 'Close menu' : 'Open menu');
     });
 
     // Scroll Behavior
@@ -851,24 +931,42 @@
       const currentScrollY = window.scrollY;
       const isMobile = window.innerWidth <= 768;
 
-      if (isMobile) {
-        if (currentScrollY > lastScrollY && currentScrollY > 50) {
-          navbar.classList.add('hidden');
-          navbarNav.classList.remove('active');
-          hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
-        } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
-          navbar.classList.remove('hidden');
-        }
-      } else {
-        if (currentScrollY > lastScrollY && currentScrollY > 50) {
-          navbar.classList.add('hidden');
-        } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
-          navbar.classList.remove('hidden');
-        }
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        navbar.classList.add('hidden');
+        searchContainer.classList.add('hidden');
+        navbarNav.classList.remove('active');
+        hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+        hamburger.setAttribute('aria-label', 'Open menu');
+      } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+        navbar.classList.remove('hidden');
+        searchContainer.classList.remove('hidden');
       }
+
+      // Show Back to Top button
+      backToTop.classList.toggle('show', currentScrollY > 300);
 
       lastScrollY = currentScrollY;
       isScrolling = setTimeout(() => {}, 150);
+    });
+
+    // Back to Top
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Tab Switching
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        currentTab = tab.getAttribute('data-tab');
+        clearCountdownIntervals();
+        renderEvents();
+      });
     });
 
     // Click Outside to Hide Comments and Menu
@@ -886,6 +984,16 @@
       if (!e.target.closest('.navbar-content') && !e.target.closest('.hamburger')) {
         navbarNav.classList.remove('active');
         hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+        hamburger.setAttribute('aria-label', 'Open menu');
+      }
+    });
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        navbarNav.classList.remove('active');
+        hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+        hamburger.setAttribute('aria-label', 'Open menu');
       }
     });
 
@@ -897,14 +1005,14 @@
     });
 
     // Advanced Countdown Timer
-    function startCountdown(eventId, eventDate, element) {
+    function startCountdown(eventId, eventDate, eventTitle, element) {
       function updateCountdown() {
         const now = new Date().getTime();
         const eventTime = new Date(eventDate).getTime();
         const diff = eventTime - now;
 
         if (diff <= 0) {
-          element.innerHTML = `<strong>Event Started</strong>`;
+          element.innerHTML = `<strong>Event Started:</strong> ${eventTitle}`;
           return;
         }
 
@@ -918,7 +1026,7 @@
         if (weeks > 0) countdownText += `${weeks}w `;
         if (days > 0 || weeks > 0) countdownText += `${days}d `;
         countdownText += `${hours}h ${minutes}m ${seconds}s`;
-        element.innerHTML = `<strong>Countdown:</strong> ${countdownText}`;
+        element.innerHTML = `<strong>Did you know that we only have</strong> ${countdownText} <strong>until ${eventTitle}?</strong>`;
       }
 
       updateCountdown();
@@ -933,7 +1041,7 @@
 
     // Render Events
     function renderEvents(query = '') {
-      postsContainer.innerHTML = '';
+      postsContainer.innerHTML = '<div class="loading-spinner">Loading events...</div>';
       const filteredEvents = query
         ? allEvents.filter(event =>
             event.title.toLowerCase().includes(query) ||
@@ -948,6 +1056,7 @@
         : filteredEvents
             .filter(event => new Date(event.date) <= new Date())
             .sort((a, b) => new Date(b.date) - new Date(a.date));
+      postsContainer.innerHTML = '';
       if (eventsToShow.length) {
         eventsToShow.forEach(event => {
           const id = event.id;
@@ -968,22 +1077,22 @@
             </div>
             <hr>
             <div class="action-buttons">
-              <button class="button toggle-comments-btn" data-event-id="${id}"><i class="fas fa-comment"></i> Comments (${comments.length})</button>
+              <button class="button toggle-comments-btn" data-event-id="${id}" aria-label="Toggle comments for ${event.title}"><i class="fas fa-comment"></i> Comments (${comments.length})</button>
             </div>
             <div class="comment-section" id="comments-${id}">
               <h4>Comments</h4>
               ${comments.length ? comments.map(comment => `
                 <p class="comment">${comment.text} — ${comment.email}, ${new Date(comment.timestamp).toLocaleString()}</p>
               `).join('') : '<p class="comment">No comments yet.</p>'}
-              <input type="text" class="comment-input" placeholder="Add a comment..." data-event-id="${id}">
-              <button class="button" data-event-id="${id}"><i class="fas fa-comment"></i> Comment</button>
+              <input type="text" class="comment-input" placeholder="Add a comment..." data-event-id="${id}" aria-label="Add comment for ${event.title}">
+              <button class="button" data-event-id="${id}" aria-label="Submit comment"><i class="fas fa-comment"></i> Comment</button>
             </div>
           `;
           postsContainer.appendChild(postElement);
 
           if (currentTab === 'upcoming' && new Date(event.date) > new Date()) {
             const countdownElement = postElement.querySelector(`#countdown-${id}`);
-            startCountdown(id, event.date, countdownElement);
+            startCountdown(id, event.date, event.title, countdownElement);
           }
 
           // Toggle Comments
@@ -995,6 +1104,7 @@
             toggleCommentsBtn.innerHTML = commentSection.classList.contains('active') ?
               `<i class="fas fa-comment-slash"></i> Hide Comments` :
               `<i class="fas fa-comment"></i> Comments (${comments.length})`;
+            toggleCommentsBtn.setAttribute('aria-label', commentSection.classList.contains('active') ? `Hide comments for ${event.title}` : `Show comments for ${event.title}`);
           });
 
           // Comment Button
@@ -1017,6 +1127,7 @@
                 commentInput.value = '';
                 commentSection.classList.add('active');
                 toggleCommentsBtn.innerHTML = `<i class="fas fa-comment-slash"></i> Hide Comments`;
+                toggleCommentsBtn.setAttribute('aria-label', `Hide comments for ${event.title}`);
               }).catch(() => {
                 showNotification('Failed to add comment.', true);
               });
