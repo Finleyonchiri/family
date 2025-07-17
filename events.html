@@ -12,18 +12,13 @@
       padding: 0;
       box-sizing: border-box;
     }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
       background: #f8f9fa;
       min-height: 100vh;
       overflow-x: hidden;
     }
-
     .navbar {
       background: #2d3748;
       backdrop-filter: blur(20px);
@@ -36,11 +31,7 @@
       z-index: 1000;
       transition: transform 0.3s ease;
     }
-
-    .navbar.hidden {
-      transform: translateY(-100%);
-    }
-
+    .navbar.hidden { transform: translateY(-100%); }
     .navbar-content {
       max-width: 1200px;
       margin: 0 auto;
@@ -49,7 +40,6 @@
       align-items: center;
       padding: 0 15px;
     }
-
     .navbar-brand {
       font-size: 1.6rem;
       font-weight: 800;
@@ -60,20 +50,17 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
-
     .navbar-brand i {
       background: linear-gradient(135deg, #ff6b6b, #feca57);
       padding: 6px;
       border-radius: 10px;
       color: white;
     }
-
     .navbar-nav {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
     .navbar a {
       color: white;
       text-decoration: none;
@@ -88,18 +75,15 @@
       align-items: center;
       gap: 8px;
     }
-
     .navbar a:hover {
       background: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
       color: white;
     }
-
     .navbar a.active {
       background: rgba(255, 255, 255, 0.25);
       color: white;
     }
-
     .hamburger {
       display: none;
       font-size: 1.2rem;
@@ -109,13 +93,11 @@
       cursor: pointer;
       padding: 8px;
     }
-
     .search-container {
       position: relative;
       display: flex;
       align-items: center;
     }
-
     .search-input {
       padding: 8px 12px 8px 35px;
       border: 2px solid rgba(255, 255, 255, 0.3);
@@ -129,17 +111,12 @@
       font-weight: 500;
       min-height: 44px;
     }
-
     .search-input:focus {
       width: 200px;
       border-color: #667eea;
       background: rgba(255, 255, 255, 0.25);
     }
-
-    .search-input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
+    .search-input::placeholder { color: rgba(255, 255, 255, 0.7); }
     .search-icon {
       position: absolute;
       left: 10px;
@@ -148,7 +125,6 @@
       color: white;
       font-size: 0.9rem;
     }
-
     .logout-btn {
       background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
       color: white;
@@ -164,24 +140,20 @@
       align-items: center;
       gap: 8px;
     }
-
     .logout-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
     }
-
     .content {
       margin-top: 60px;
       width: 100%;
       padding: 0 15px;
     }
-
     .page-header {
       text-align: center;
       margin-bottom: 15px;
       padding: 8px 0;
     }
-
     .page-title {
       font-size: 1.8rem;
       font-weight: 900;
@@ -191,14 +163,12 @@
       text-transform: uppercase;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-
     .tabs {
       display: flex;
       justify-content: center;
       gap: 8px;
       margin-bottom: 15px;
     }
-
     .tab {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
@@ -213,16 +183,11 @@
       align-items: center;
       letter-spacing: 0.03em;
     }
-
     .tab:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
-
-    .tab.active {
-      background: linear-gradient(135deg, #764ba2, #667eea);
-    }
-
+    .tab.active { background: linear-gradient(135deg, #764ba2, #667eea); }
     .tag-filter {
       display: flex;
       justify-content: center;
@@ -230,7 +195,6 @@
       margin-bottom: 15px;
       flex-wrap: wrap;
     }
-
     .tag {
       background: #e2e8f0;
       color: #2d3748;
@@ -241,52 +205,26 @@
       font-size: 0.85rem;
       transition: all 0.3s ease;
     }
-
-    .tag:hover {
+    .tag:hover, .tag.active {
       background: #667eea;
       color: white;
     }
-
-    .tag.active {
-      background: #667eea;
-      color: white;
-    }
-
-    .event-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .event-section {
-      background: white;
-      border: 2px solid transparent;
+    .featured-event {
+      background: linear-gradient(135deg, #f8f9fa, #e2e8f0);
+      border: 2px solid #667eea;
       border-radius: 12px;
       padding: 15px;
-      transition: all 0.3s ease;
+      margin: 0 auto 20px;
+      max-width: 1200px;
+      width: 100%;
       position: relative;
-      overflow: hidden;
+      height: auto;
+      min-height: 300px;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeIn 0.5s ease forwards;
     }
-
-    .event-section:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-      border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
-    }
-
-    .event-section.featured {
-      grid-column: span 2;
-      background: linear-gradient(135deg, #f8f9fa, #e2e8f0);
-      border: 2px solid #667eea;
-      position: relative;
-    }
-
-    .event-section.featured::before {
+    .featured-event::before {
       content: 'Featured';
       position: absolute;
       top: 10px;
@@ -299,17 +237,41 @@
       font-weight: 700;
       letter-spacing: 0.03em;
     }
-
-    @keyframes fadeIn {
-      to { opacity: 1; transform: translateY(0); }
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: start;
     }
-
+    .event-section {
+      background: white;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 15px;
+      transition: all 0.3s ease;
+      height: auto;
+      min-height: 200px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.5s ease forwards;
+    }
+    .event-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border-image: linear-gradient(135deg, #667eea, #764ba2) 1;
+    }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    .event-section:nth-child(1) { animation-delay: 0.1s; }
+    .event-section:nth-child(2) { animation-delay: 0.2s; }
+    .event-section:nth-child(3) { animation-delay: 0.3s; }
+    .event-section:nth-child(n+4) { animation-delay: 0.4s; }
     .event-inner {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
     }
-
     .event-image {
       max-width: 300px;
       height: auto;
@@ -320,17 +282,12 @@
       border: 1px solid #e2e8f0;
       transition: transform 0.3s ease;
     }
-
-    .event-section:hover .event-image {
-      transform: scale(1.05);
-    }
-
+    .event-section:hover .event-image, .featured-event:hover .event-image { transform: scale(1.05); }
     .event-content {
       flex: 1;
       min-width: 300px;
       margin-bottom: 12px;
     }
-
     .event-title {
       font-size: 1.6rem;
       font-weight: 800;
@@ -341,13 +298,11 @@
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
     }
-
-    .event-section:hover .event-title {
+    .event-section:hover .event-title, .featured-event:hover .event-title {
       background: linear-gradient(135deg, #667eea, #764ba2);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
     .event-meta {
       font-size: 0.85rem;
       font-weight: 500;
@@ -355,14 +310,12 @@
       margin-bottom: 10px;
       letter-spacing: 0.03em;
     }
-
     .event-tags {
       display: flex;
       gap: 6px;
       margin-bottom: 10px;
       flex-wrap: wrap;
     }
-
     .event-tag {
       background: #e2e8f0;
       color: #2d3748;
@@ -370,8 +323,9 @@
       border-radius: 10px;
       font-size: 0.8rem;
       font-weight: 600;
+      cursor: pointer;
     }
-
+    .event-tag:hover { background: #667eea; color: white; }
     .event-content p.description {
       font-size: 0.95rem;
       font-weight: 600;
@@ -380,7 +334,6 @@
       margin-bottom: 12px;
       font-style: italic;
     }
-
     .event-content .venue, .event-content .event-date {
       font-size: 0.95rem;
       font-weight: 600;
@@ -388,7 +341,6 @@
       line-height: 1.6;
       margin-bottom: 12px;
     }
-
     .venue-map {
       max-width: 300px;
       height: 150px;
@@ -396,7 +348,6 @@
       margin-top: 8px;
       display: block;
     }
-
     .event-content .countdown {
       font-size: 0.95rem;
       font-weight: 700;
@@ -407,9 +358,7 @@
       padding: 8px;
       border-radius: 8px;
       display: inline-block;
-      transition: background 0.3s ease;
     }
-
     .countdown-progress {
       height: 4px;
       background: #e2e8f0;
@@ -417,27 +366,24 @@
       margin-top: 8px;
       overflow: hidden;
     }
-
     .countdown-progress-bar {
       height: 100%;
       background: linear-gradient(135deg, #38a169, #68d391);
       transition: width 0.3s ease;
     }
-
     .event-content strong {
       color: #2d3748;
       font-weight: 700;
       display: inline;
       letter-spacing: 0.02em;
     }
-
     hr {
       border: none;
       border-top: 2px solid #2d3748;
       margin: 15px 0;
       clear: both;
     }
-
+    .action-buttons { display: flex; justify-content: flex-end; }
     .comment-section {
       margin-top: 12px;
       padding: 12px 0 0;
@@ -445,11 +391,7 @@
       display: none;
       width: 100%;
     }
-
-    .comment-section.active {
-      display: block;
-    }
-
+    .comment-section.active { display: block; }
     .comment-section h4 {
       font-size: 1rem;
       font-weight: 700;
@@ -457,15 +399,19 @@
       margin-bottom: 8px;
       letter-spacing: 0.03em;
     }
-
     .comment {
       font-size: 0.9rem;
       font-weight: 500;
       color: #2d3748;
       margin-bottom: 6px;
       line-height: 1.5;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
     }
-
+    .comment:nth-child(1) { animation-delay: 0.1s; }
+    .comment:nth-child(2) { animation-delay: 0.2s; }
+    .comment:nth-child(3) { animation-delay: 0.3s; }
+    .comment:nth-child(n+4) { animation-delay: 0.4s; }
     .comment-input {
       width: 100%;
       padding: 8px 12px;
@@ -480,17 +426,12 @@
       min-height: 44px;
       margin-bottom: 8px;
     }
-
     .comment-input:focus {
       border-color: #667eea;
       box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
       background: white;
     }
-
-    .comment-input::placeholder {
-      color: #a0aec0;
-    }
-
+    .comment-input::placeholder { color: #a0aec0; }
     .button {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
@@ -506,28 +447,23 @@
       gap: 6px;
       min-height: 44px;
     }
-
     .button:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
-
     .toggle-comments-btn {
       background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
       margin-left: 8px;
     }
-
     .toggle-comments-btn:hover {
       box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
     }
-
     .footer {
       background: #000000;
       color: white;
       padding: 50px 0 20px;
       border-top: 3px solid #667eea;
     }
-
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
@@ -536,7 +472,6 @@
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 30px;
     }
-
     .footer-section h4 {
       font-size: 1.2rem;
       font-weight: 800;
@@ -546,7 +481,6 @@
       padding-bottom: 8px;
       letter-spacing: 0.03em;
     }
-
     .footer-section p {
       color: #cccccc;
       line-height: 1.5;
@@ -554,13 +488,11 @@
       font-size: 0.9rem;
       font-weight: 500;
     }
-
     .footer-links {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-
     .footer-links a {
       color: #cccccc;
       text-decoration: none;
@@ -569,18 +501,15 @@
       font-size: 0.9rem;
       font-weight: 500;
     }
-
     .footer-links a:hover {
       color: #667eea;
       transform: translateX(5px);
     }
-
     .social-links {
       display: flex;
       gap: 12px;
       margin-top: 15px;
     }
-
     .social-links a {
       width: 40px;
       height: 40px;
@@ -593,13 +522,11 @@
       color: #667eea;
       transition: all 0.3s ease;
     }
-
     .social-links a:hover {
       background: #667eea;
       color: white;
       transform: translateY(-3px);
     }
-
     .footer-bottom {
       text-align: center;
       padding-top: 20px;
@@ -609,7 +536,6 @@
       font-size: 0.85rem;
       font-weight: 500;
     }
-
     .notification {
       position: fixed;
       top: 50%;
@@ -630,16 +556,13 @@
       max-width: 90%;
       word-wrap: break-word;
     }
-
     .notification.error {
       background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
     }
-
     .notification.show {
       opacity: 1;
       transform: translate(-50%, -50%) translateY(0);
     }
-
     .loading-spinner {
       text-align: center;
       padding: 20px;
@@ -647,7 +570,6 @@
       font-weight: 600;
       color: #2d3748;
     }
-
     .loading-spinner::after {
       content: '';
       display: inline-block;
@@ -659,11 +581,7 @@
       animation: spin 1s linear infinite;
       margin-left: 10px;
     }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
+    @keyframes spin { to { transform: rotate(360deg); } }
     .back-to-top {
       position: fixed;
       bottom: 20px;
@@ -682,35 +600,19 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
       z-index: 1000;
     }
-
     .back-to-top.show {
       opacity: 1;
       transform: translateY(0);
     }
-
     .back-to-top:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
-
     @media (max-width: 768px) {
-      .navbar {
-        padding: 8px 0;
-      }
-
-      .navbar-content {
-        padding: 0 8px;
-        position: relative;
-      }
-
-      .navbar-brand {
-        font-size: 1.4rem;
-      }
-
-      .hamburger {
-        display: block;
-      }
-
+      .navbar { padding: 8px 0; }
+      .navbar-content { padding: 0 8px; position: relative; }
+      .navbar-brand { font-size: 1.4rem; }
+      .hamburger { display: block; }
       .navbar-nav {
         display: none;
         position: fixed;
@@ -728,33 +630,12 @@
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
         height: auto;
       }
-
-      .navbar-nav.active {
-        display: flex;
-        transform: translateX(0);
-      }
-
-      .navbar a {
-        padding: 10px;
-        font-size: 1rem;
-        justify-content: flex-start;
-      }
-
-      .navbar a span {
-        display: inline;
-      }
-
-      .logout-btn {
-        padding: 10px;
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .content {
-        margin-top: 50px;
-      }
-
-      .search-container {
+      .navbar-nav.active { display: flex; transform: translateX(0); }
+      .navbar a { padding: 10px; font-size: 1rem; justify-content: flex-start; }
+      .navbar a span { display: inline; }
+      .logout-btn { padding: 10px; width: 100%; justify-content: flex-start; }
+      .content { margin-top: 50px; }
+      .search-container.mobile-only {
         max-width: 1200px;
         margin: 8px auto;
         padding: 0 8px;
@@ -764,11 +645,7 @@
         transition: transform 0.3s ease;
         z-index: 900;
       }
-
-      .search-container.hidden {
-        transform: translateY(-100%);
-      }
-
+      .search-container.mobile-only.hidden { transform: translateY(-100%); }
       .search-input {
         border: 2px solid #e2e8f0;
         background: rgba(255, 255, 255, 0.9);
@@ -776,140 +653,41 @@
         width: 100%;
         max-width: 300px;
       }
-
       .search-input:focus {
         max-width: 350px;
         border-color: #667eea;
         box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
       }
-
-      .search-icon {
-        color: #2d3748;
-        left: 25px;
-      }
-
-      .page-header {
-        padding: 8px;
-      }
-
-      .page-title {
-        font-size: 1.4rem;
-      }
-
-      .tabs {
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .tab {
-        width: 100%;
-        max-width: 300px;
-        text-align: center;
-        font-size: 0.9rem;
-        padding: 8px;
-      }
-
-      .event-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .event-section {
-        padding: 12px;
-      }
-
-      .event-section.featured {
-        grid-column: span 1;
-      }
-
-      .event-image {
-        max-width: 100%;
-        margin: 0 0 12px 0;
-        float: none;
-      }
-
-      .event-content {
-        min-width: 100%;
-      }
-
-      .event-title {
-        font-size: 1.4rem;
-      }
-
-      .event-content p, .event-content .venue, .event-content .event-date, .event-content .countdown {
-        font-size: 0.9rem;
-      }
-
-      .event-meta {
-        font-size: 0.8rem;
-      }
-
-      .event-tags {
-        font-size: 0.75rem;
-      }
-
-      .comment-section {
-        padding: 8px 0;
-      }
-
-      .comment-section h4 {
-        font-size: 0.95rem;
-      }
-
-      .comment {
-        font-size: 0.85rem;
-      }
-
-      .comment-input, .button {
-        min-height: 44px;
-        font-size: 0.85rem;
-        padding: 6px 12px;
-      }
-
-      .footer-content {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        text-align: center;
-        padding: 0 8px;
-      }
-
-      .social-links {
-        justify-content: center;
-      }
+      .search-icon { color: #2d3748; left: 25px; }
+      .page-header { padding: 8px; }
+      .page-title { font-size: 1.4rem; }
+      .tabs { flex-direction: column; align-items: center; gap: 6px; }
+      .tab { width: 100%; max-width: 300px; text-align: center; font-size: 0.9rem; padding: 8px; }
+      .featured-event { padding: 12px; min-height: 250px; }
+      .event-grid { grid-template-columns: 1fr; align-items: stretch; }
+      .event-section { padding: 12px; min-height: 180px; }
+      .event-image { max-width: 100%; margin: 0 0 12px 0; float: none; }
+      .event-content { min-width: 100%; }
+      .event-title { font-size: 1.4rem; }
+      .event-content p, .event-content .venue, .event-content .event-date, .event-content .countdown { font-size: 0.9rem; }
+      .event-meta { font-size: 0.8rem; }
+      .event-tags { font-size: 0.75rem; }
+      .comment-section { padding: 8px 0; }
+      .comment-section h4 { font-size: 0.95rem; }
+      .comment { font-size: 0.85rem; }
+      .comment-input, .button { min-height: 44px; font-size: 0.85rem; padding: 6px 12px; }
+      .footer-content { grid-template-columns: 1fr; gap: 20px; text-align: center; padding: 0 8px; }
+      .social-links { justify-content: center; }
     }
-
     @media (max-width: 480px) {
-      .navbar-brand {
-        font-size: 1.2rem;
-      }
-
-      .page-title {
-        font-size: 1.3rem;
-      }
-
-      .event-title {
-        font-size: 1.3rem;
-      }
-
-      .event-content p, .event-content .venue, .event-content .event-date, .event-content .countdown {
-        font-size: 0.85rem;
-      }
-
-      .event-meta {
-        font-size: 0.75rem;
-      }
-
-      .comment-section h4 {
-        font-size: 0.9rem;
-      }
-
-      .comment {
-        font-size: 0.8rem;
-      }
-
-      .comment-input, .button {
-        font-size: 0.8rem;
-      }
+      .navbar-brand { font-size: 1.2rem; }
+      .page-title { font-size: 1.3rem; }
+      .event-title { font-size: 1.3rem; }
+      .event-content p, .event-content .venue, .event-content .event-date, .event-content .countdown { font-size: 0.85rem; }
+      .event-meta { font-size: 0.75rem; }
+      .comment-section h4 { font-size: 0.9rem; }
+      .comment { font-size: 0.8rem; }
+      .comment-input, .button { font-size: 0.8rem; }
     }
   </style>
 </head>
@@ -917,8 +695,7 @@
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar-content">
       <div class="navbar-brand">
-        <i class="fas fa-home"></i>
-        Family Hub
+        <i class="fas fa-home"></i> Family Hub
       </div>
       <button class="hamburger" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
       <div class="navbar-nav">
@@ -938,7 +715,6 @@
       </div>
     </div>
   </nav>
-
   <div class="content">
     <div class="page-header">
       <h1 class="page-title">Family Events</h1>
@@ -952,9 +728,9 @@
       <input type="text" class="search-input" placeholder="Search events..." id="search-input-mobile" aria-label="Search events">
     </div>
     <div class="tag-filter" id="tag-filter"></div>
+    <div class="featured-event" id="featured-event" role="region" aria-label="Featured event"></div>
     <div id="posts-container" class="event-grid"></div>
   </div>
-
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-section">
@@ -999,14 +775,11 @@
       <p>© 2025 Family Hub. All rights reserved by tales. Built with ❤️ for bringing families closer together.</p>
     </div>
   </footer>
-
   <button class="back-to-top" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
-
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script>
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCLN4tBTvhbzrN7zGd2_1nRfAI7sHaS9PA",
       authDomain: "up-stok.firebaseapp.com",
@@ -1017,12 +790,11 @@
       appId: "1:165541670405:web:65c6680acb1f531b9f366c",
       measurementId: "G-6J1ZD1MXMQ"
     };
-
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.database();
     const postsContainer = document.getElementById('posts-container');
+    const featuredEvent = document.getElementById('featured-event');
     const logoutBtn = document.getElementById('logout');
     const searchInput = document.getElementById('search-input');
     const searchInputMobile = document.getElementById('search-input-mobile');
@@ -1039,33 +811,23 @@
     let lastScrollY = 0;
     let isScrolling;
     let selectedTag = null;
-
-    // Auth State Listener
     auth.onAuthStateChanged(user => {
       if (!user) window.location.href = 'index.html';
     });
-
-    // Logout
     logoutBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       auth.signOut().then(() => window.location.href = 'index.html');
     });
-
-    // Hamburger Menu Toggle
     hamburger.addEventListener('click', () => {
       navbarNav.classList.toggle('active');
       hamburger.innerHTML = navbarNav.classList.contains('active') ?
-        `<i class="fas fa-times"></i>` :
-        `<i class="fas fa-bars"></i>`;
+        `<i class="fas fa-times"></i>` : `<i class="fas fa-bars"></i>`;
       hamburger.setAttribute('aria-label', navbarNav.classList.contains('active') ? 'Close menu' : 'Open menu');
     });
-
-    // Scroll Behavior
     window.addEventListener('scroll', () => {
       clearTimeout(isScrolling);
       const currentScrollY = window.scrollY;
       const isMobile = window.innerWidth <= 768;
-
       if (currentScrollY > lastScrollY && currentScrollY > 50) {
         navbar.classList.add('hidden');
         if (isMobile) searchContainerMobile.classList.add('hidden');
@@ -1076,24 +838,16 @@
         navbar.classList.remove('hidden');
         if (isMobile) searchContainerMobile.classList.remove('hidden');
       }
-
       backToTop.classList.toggle('show', currentScrollY > 300);
       lastScrollY = currentScrollY;
       isScrolling = setTimeout(() => {}, 150);
     });
-
-    // Back to Top
     backToTop.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-
-    // Tab Switching
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        tabs.forEach(t => {
-          t.classList.remove('active');
-          t.setAttribute('aria-selected', 'false');
-        });
+        tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
         tab.classList.add('active');
         tab.setAttribute('aria-selected', 'true');
         currentTab = tab.getAttribute('data-tab');
@@ -1101,8 +855,6 @@
         renderEvents();
       });
     });
-
-    // Click Outside to Hide Comments and Menu
     document.addEventListener('click', (e) => {
       const commentSections = document.querySelectorAll('.comment-section.active');
       commentSections.forEach(section => {
@@ -1121,8 +873,6 @@
         hamburger.setAttribute('aria-label', 'Open menu');
       }
     });
-
-    // Keyboard Navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         navbarNav.classList.remove('active');
@@ -1130,8 +880,6 @@
         hamburger.setAttribute('aria-label', 'Open menu');
       }
     });
-
-    // Search Functionality
     [searchInput, searchInputMobile].forEach(input => {
       input.addEventListener('input', (e) => {
         const query = e.target.value.trim().toLowerCase();
@@ -1139,12 +887,10 @@
         renderEvents(query);
       });
     });
-
-    // Tag Filtering
     function renderTagFilter() {
       const tags = [...new Set(allEvents.flatMap(event => event.tags || []))];
       tagFilter.innerHTML = tags.length ? tags.map(tag => `
-        <div class="tag" data-tag="${tag}">${tag}</div>
+        <div class="tag" data-tag="${tag}" aria-label="Filter by tag: ${tag}">${tag}</div>
       `).join('') : '';
       document.querySelectorAll('.tag').forEach(tag => {
         tag.addEventListener('click', () => {
@@ -1156,8 +902,6 @@
         });
       });
     }
-
-    // Advanced Countdown Timer
     function startCountdown(eventId, eventDateTime, eventTitle, element) {
       const eventTime = new Date(eventDateTime).getTime();
       const totalDuration = eventTime - new Date(allEvents.find(e => e.id === eventId).timestamp);
@@ -1187,20 +931,19 @@
       const interval = setInterval(updateCountdown, 1000);
       countdownIntervals.push({ eventId, interval });
     }
-
     function clearCountdownIntervals() {
       countdownIntervals.forEach(({ interval }) => clearInterval(interval));
       countdownIntervals = [];
     }
-
-    // Render Events
     function renderEvents(query = '') {
       postsContainer.innerHTML = '<div class="loading-spinner">Loading events...</div>';
+      featuredEvent.innerHTML = '';
       const filteredEvents = query
         ? allEvents.filter(event =>
             event.title.toLowerCase().includes(query) ||
             event.description.toLowerCase().includes(query) ||
-            (event.venue && event.venue.toLowerCase().includes(query))
+            (event.venue && event.venue.toLowerCase().includes(query)) ||
+            (event.tags && event.tags.some(tag => tag.toLowerCase().includes(query)))
           )
         : allEvents;
       const eventsToShow = currentTab === 'upcoming'
@@ -1209,34 +952,33 @@
             .sort((a, b) => new Date(`${a.date}T${a.time || '00:00'}`) - new Date(`${b.date}T${b.time || '00:00'}`))
         : filteredEvents
             .filter(event => new Date(`${event.date}T${event.time || '00:00'}`) <= new Date())
-            .sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${a.time || '00:00'}`));
+            .sort((a, b) => new Date(`${b.date}T${b.time || '00:00'}`) - new Date(`${a.date}T${b.time || '00:00'}`));
       postsContainer.innerHTML = '';
       if (eventsToShow.length) {
-        eventsToShow.forEach((event, index) => {
+        const isFeatured = currentTab === 'upcoming' && eventsToShow.length > 0;
+        if (isFeatured) {
+          const event = eventsToShow[0];
           const id = event.id;
           const comments = event.comments ? Object.values(event.comments) : [];
-          const isFeatured = currentTab === 'upcoming' && index === 0;
-          const postElement = document.createElement('div');
-          postElement.className = `event-section ${isFeatured ? 'featured' : ''}`;
           const venueMap = event.venue ? `<img src="https://maps.googleapis.com/maps/api/staticmap?center=${encodeURIComponent(event.venue)}&zoom=15&size=300x150&key=NO_API_KEY" alt="Map of ${event.venue}" class="venue-map">` : '';
-          postElement.innerHTML = `
+          featuredEvent.innerHTML = `
             <div class="event-inner">
               <img src="${event.imageLink || 'https://via.placeholder.com/300'}" alt="${event.title}" class="event-image">
               <div class="event-content">
                 <h3 class="event-title">${event.title}</h3>
-                <p class="event-meta">By: ${event.posterName} | Posted: ${new Date(event.timestamp).toLocaleString()}</p>
-                <div class="event-tags">${(event.tags || []).map(tag => `<span class="event-tag">${tag}</span>`).join('')}</div>
+                <p class="event-meta">By: ${event.posterName} | Posted: ${new Date(event.timestamp).toLocaleString()} | Time: ${new Date(`1970-01-01T${event.time || '00:00'}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</p>
+                <div class="event-tags">${(event.tags || []).map(tag => `<span class="event-tag" data-tag="${tag}" aria-label="Filter by tag: ${tag}">${tag}</span>`).join('')}</div>
                 <p class="description"><strong>Description:</strong> ${event.description}</p>
                 ${event.venue ? `<div class="venue"><strong>Venue:</strong> ${event.venue}${venueMap}</div>` : ''}
                 <div class="event-date"><strong>Date:</strong> ${new Date(`${event.date}T${event.time || '00:00'}`).toLocaleString()}</div>
-                ${currentTab === 'upcoming' ? `<div class="countdown" id="countdown-${id}"></div>` : ''}
+                <div class="countdown" id="countdown-${id}"></div>
               </div>
             </div>
             <hr>
             <div class="action-buttons">
               <button class="button toggle-comments-btn" data-event-id="${id}" aria-label="Toggle comments for ${event.title}"><i class="fas fa-comment"></i> Comments (${comments.length})</button>
             </div>
-            <div class="comment-section" id="comments-${id}">
+            <div class="comment-section" id="comments-${id}" role="region" aria-label="Comments for ${event.title}">
               <h4>Comments</h4>
               ${comments.length ? comments.map(comment => `
                 <p class="comment">${comment.text} — ${comment.email}, ${new Date(comment.timestamp).toLocaleString()}</p>
@@ -1245,30 +987,18 @@
               <button class="button" data-event-id="${id}" aria-label="Submit comment"><i class="fas fa-comment"></i> Comment</button>
             </div>
           `;
-          if (!selectedTag || (event.tags && event.tags.includes(selectedTag))) {
-            postsContainer.appendChild(postElement);
-          }
-
-          if (currentTab === 'upcoming' && new Date(`${event.date}T${event.time || '00:00'}`) > new Date()) {
-            const countdownElement = postElement.querySelector(`#countdown-${id}`);
-            startCountdown(id, `${event.date}T${event.time || '00:00'}`, event.title, countdownElement);
-          }
-
-          // Toggle Comments
-          const toggleCommentsBtn = postElement.querySelector('.toggle-comments-btn');
-          const commentSection = postElement.querySelector(`#comments-${id}`);
+          startCountdown(id, `${event.date}T${event.time || '00:00'}`, event.title, featuredEvent.querySelector(`#countdown-${id}`));
+          const toggleCommentsBtn = featuredEvent.querySelector('.toggle-comments-btn');
+          const commentSection = featuredEvent.querySelector(`#comments-${id}`);
           toggleCommentsBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             commentSection.classList.toggle('active');
             toggleCommentsBtn.innerHTML = commentSection.classList.contains('active') ?
-              `<i class="fas fa-comment-slash"></i> Hide Comments` :
-              `<i class="fas fa-comment"></i> Comments (${comments.length})`;
+              `<i class="fas fa-comment-slash"></i> Hide Comments` : `<i class="fas fa-comment"></i> Comments (${comments.length})`;
             toggleCommentsBtn.setAttribute('aria-label', commentSection.classList.contains('active') ? `Hide comments for ${event.title}` : `Show comments for ${event.title}`);
           });
-
-          // Comment Button
-          const commentBtn = postElement.querySelector('.comment-section button');
-          const commentInput = postElement.querySelector('.comment-input');
+          const commentBtn = featuredEvent.querySelector('.comment-section button');
+          const commentInput = featuredEvent.querySelector('.comment-input');
           commentBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const eventId = commentBtn.getAttribute('data-event-id');
@@ -1294,13 +1024,96 @@
               showNotification(user ? 'Comment cannot be empty.' : 'Please log in to comment.', true);
             }
           });
+        }
+        eventsToShow.slice(isFeatured ? 1 : 0).forEach((event, index) => {
+          const id = event.id;
+          const comments = event.comments ? Object.values(event.comments) : [];
+          if (!selectedTag || (event.tags && event.tags.includes(selectedTag))) {
+            const postElement = document.createElement('div');
+            postElement.className = 'event-section';
+            const venueMap = event.venue ? `<img src="https://maps.googleapis.com/maps/api/staticmap?center=${encodeURIComponent(event.venue)}&zoom=15&size=300x150&key=NO_API_KEY" alt="Map of ${event.venue}" class="venue-map">` : '';
+            postElement.innerHTML = `
+              <div class="event-inner">
+                <img src="${event.imageLink || 'https://via.placeholder.com/300'}" alt="${event.title}" class="event-image">
+                <div class="event-content">
+                  <h3 class="event-title">${event.title}</h3>
+                  <p class="event-meta">By: ${event.posterName} | Posted: ${new Date(event.timestamp).toLocaleString()} | Time: ${new Date(`1970-01-01T${event.time || '00:00'}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</p>
+                  <div class="event-tags">${(event.tags || []).map(tag => `<span class="event-tag" data-tag="${tag}" aria-label="Filter by tag: ${tag}">${tag}</span>`).join('')}</div>
+                  <p class="description"><strong>Description:</strong> ${event.description}</p>
+                  ${event.venue ? `<div class="venue"><strong>Venue:</strong> ${event.venue}${venueMap}</div>` : ''}
+                  <div class="event-date"><strong>Date:</strong> ${new Date(`${event.date}T${event.time || '00:00'}`).toLocaleString()}</div>
+                  ${currentTab === 'upcoming' ? `<div class="countdown" id="countdown-${id}"></div>` : ''}
+                </div>
+              </div>
+              <hr>
+              <div class="action-buttons">
+                <button class="button toggle-comments-btn" data-event-id="${id}" aria-label="Toggle comments for ${event.title}"><i class="fas fa-comment"></i> Comments (${comments.length})</button>
+              </div>
+              <div class="comment-section" id="comments-${id}" role="region" aria-label="Comments for ${event.title}">
+                <h4>Comments</h4>
+                ${comments.length ? comments.map(comment => `
+                  <p class="comment">${comment.text} — ${comment.email}, ${new Date(comment.timestamp).toLocaleString()}</p>
+                `).join('') : '<p class="comment">No comments yet.</p>'}
+                <input type="text" class="comment-input" placeholder="Add a comment..." data-event-id="${id}" aria-label="Add comment for ${event.title}">
+                <button class="button" data-event-id="${id}" aria-label="Submit comment"><i class="fas fa-comment"></i> Comment</button>
+              </div>
+            `;
+            postsContainer.appendChild(postElement);
+            if (currentTab === 'upcoming' && new Date(`${event.date}T${event.time || '00:00'}`) > new Date()) {
+              startCountdown(id, `${event.date}T${event.time || '00:00'}`, event.title, postElement.querySelector(`#countdown-${id}`));
+            }
+            const toggleCommentsBtn = postElement.querySelector('.toggle-comments-btn');
+            const commentSection = postElement.querySelector(`#comments-${id}`);
+            toggleCommentsBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              commentSection.classList.toggle('active');
+              toggleCommentsBtn.innerHTML = commentSection.classList.contains('active') ?
+                `<i class="fas fa-comment-slash"></i> Hide Comments` : `<i class="fas fa-comment"></i> Comments (${comments.length})`;
+              toggleCommentsBtn.setAttribute('aria-label', commentSection.classList.contains('active') ? `Hide comments for ${event.title}` : `Show comments for ${event.title}`);
+            });
+            const commentBtn = postElement.querySelector('.comment-section button');
+            const commentInput = postElement.querySelector('.comment-input');
+            commentBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const eventId = commentBtn.getAttribute('data-event-id');
+              const commentText = commentInput.value.trim();
+              const user = auth.currentUser;
+              if (user && commentText) {
+                const newCommentRef = db.ref(`events/${eventId}/comments`).push();
+                newCommentRef.set({
+                  userId: user.uid,
+                  email: user.email,
+                  text: commentText,
+                  timestamp: Date.now()
+                }).then(() => {
+                  showNotification('Comment added successfully!');
+                  commentInput.value = '';
+                  commentSection.classList.add('active');
+                  toggleCommentsBtn.innerHTML = `<i class="fas fa-comment-slash"></i> Hide Comments`;
+                  toggleCommentsBtn.setAttribute('aria-label', `Hide comments for ${event.title}`);
+                }).catch(() => {
+                  showNotification('Failed to add comment.', true);
+                });
+              } else {
+                showNotification(user ? 'Comment cannot be empty.' : 'Please log in to comment.', true);
+              }
+            });
+          }
+        });
+        document.querySelectorAll('.event-tag').forEach(tag => {
+          tag.addEventListener('click', () => {
+            document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+            selectedTag = tag.getAttribute('data-tag');
+            document.querySelector(`.tag[data-tag="${selectedTag}"]`)?.classList.add('active');
+            clearCountdownIntervals();
+            renderEvents(query);
+          });
         });
       } else {
         postsContainer.innerHTML = `<p class="event-content">No ${currentTab} events yet.</p>`;
+        featuredEvent.innerHTML = '';
       }
     }
-
-    // Fetch and Display Events
     db.ref('events').on('value', snapshot => {
       const data = snapshot.val();
       allEvents = [];
@@ -1311,8 +1124,6 @@
       renderTagFilter();
       renderEvents();
     });
-
-    // Notification
     function showNotification(message, isError = false) {
       const notification = document.createElement('div');
       notification.className = `notification ${isError ? 'error' : ''}`;
