@@ -830,7 +830,9 @@
 
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-          auth.signOut().then(() => window.location.href = 'index.html');
+          auth.signOut().then(() => window.location.href = 'index.html').catch(() => {
+            showNotification('Failed to log out.', true);
+          });
         });
       }
 
@@ -905,6 +907,7 @@
       }
 
       function timeAgo(timestamp) {
+        if (!timestamp) return 'Unknown time';
         const now = Date.now();
         const diff = now - timestamp;
         const minutes = Math.floor(diff / 60000);
@@ -918,6 +921,14 @@
       db.ref('posts').on('value', snapshot => {
         cachedPosts = snapshot.val();
         renderPosts(cachedPosts);
+      }, error => {
+        console.error('Error fetching posts:', error);
+        postsContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-circle"></i>
+            <h3>Error loading posts</h3>
+            <p>Please try again later.</p>
+          </div>`;
       });
 
       function renderPosts(posts) {
@@ -966,7 +977,7 @@
                       <div class="comment-avatar">${getUserInitials(comment.email)}</div>
                       <div class="comment-author">${comment.email || 'Anonymous'}</div>
                     </div>
-                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-text">${comment.text || ''}</div>
                     <div class="comment-time">${timeAgo(comment.timestamp)}</div>
                   </div>
                 `).join('')
@@ -994,7 +1005,7 @@
               ` : ''}
               <div class="post-description">${post.description || 'No description'}</div>
               <div class="post-actions">
-                <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${postId}')">
+                <button class="like-btn ${isLiked ? 'liked' : ''}" data-post-id="${postId}">
                   <i class="fas fa-heart"></i>
                   <span>${likesCount} ${likesCount === 1 ? 'Like' : 'Likes'}</span>
                 </button>
@@ -1007,7 +1018,7 @@
                 <div class="comments-list">${commentsHtml}</div>
                 <div class="comment-form">
                   <textarea class="comment-input" placeholder="Share your thoughts..." rows="2" id="comment-${postId}" aria-label="Add comment"></textarea>
-                  <button class="comment-btn" onclick="addComment('${postId}')">
+                  <button class="comment-btn" data-post-id="${postId}">
                     <i class="fas fa-paper-plane"></i> Comment
                   </button>
                 </div>
@@ -1024,17 +1035,42 @@
               commentsList.classList.toggle('active');
             });
           }
+
+          const likeBtn = postElement.querySelector('.like-btn');
+          if (likeBtn) {
+            likeBtn.addEventListener('click', () => {
+              const postId = likeBtn.getAttribute('data-post-id');
+              toggleLike(postId, likeBtn);
+            });
+          }
+
+          const commentBtn = postElement.querySelector('.comment-btn');
+          if (commentBtn) {
+            commentBtn.addEventListener('click', () => {
+              const postId = commentBtn.getAttribute('data-post-id');
+              addComment(postId);
+            });
+          }
         });
       }
 
-      function toggleLike(postId) {
+      function toggleLike(postId, likeBtn) {
         const user = auth.currentUser;
         if (user) {
+          likeBtn.disabled = true;
+          likeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Liking...';
           db.ref(`posts/${postId}/likes/${user.uid}`).transaction(currentValue => {
             return currentValue === null ? {
               userId: user.uid,
               timestamp: Date.now()
             } : null;
+          }).then(() => {
+            likeBtn.disabled = false;
+            showNotification('Like updated successfully!');
+          }).catch(error => {
+            console.error('Error toggling like:', error);
+            likeBtn.disabled = false;
+            showNotification('Failed to update like.', true);
           });
         } else {
           showNotification('Please log in to like posts.', true);
@@ -1055,7 +1091,7 @@
 
           db.ref(`posts/${postId}/comments`).push().set({
             userId: user.uid,
-            email: user.email,
+            email: user.email || 'Anonymous',
             text: commentText,
             timestamp: Date.now()
           }).then(() => {
@@ -1065,7 +1101,8 @@
             showNotification('Comment posted successfully!');
             const commentsList = commentInput.closest('.comment-section').querySelector('.comments-list');
             commentsList.classList.add('active');
-          }).catch(() => {
+          }).catch(error => {
+            console.error('Error adding comment:', error);
             commentBtn.innerHTML = originalText;
             commentBtn.disabled = false;
             showNotification('Failed to post comment.', true);
