@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Family Hub - Add Post</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
     * {
@@ -13,38 +13,32 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+      background: #f8f9fa;
       min-height: 100vh;
-      position: relative;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-      background-size: 50px 50px, 80px 80px;
-      z-index: -1;
-    }
-
     .navbar {
-      background: rgba(255, 255, 255, 0.1);
+      background: #2d3748;
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      padding: 15px 0;
+      padding: 10px 0;
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar.hidden {
+      transform: translateY(-100%);
     }
 
     .navbar-content {
@@ -53,38 +47,46 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 30px;
+      padding: 0 15px;
     }
 
     .navbar-brand {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: white;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     .navbar-brand i {
       background: linear-gradient(135deg, #ff6b6b, #feca57);
-      padding: 8px;
-      border-radius: 12px;
+      padding: 6px;
+      border-radius: 10px;
+      color: white;
     }
 
     .navbar-nav {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .navbar a {
-      color: rgba(255, 255, 255, 0.9);
+      color: white;
       text-decoration: none;
-      font-weight: 500;
-      padding: 10px 18px;
-      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      border-radius: 15px;
       transition: all 0.3s ease;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .navbar a:hover {
@@ -98,6 +100,16 @@
       color: white;
     }
 
+    .hamburger {
+      display: none;
+      font-size: 1.2rem;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
     .search-container {
       position: relative;
       display: flex;
@@ -105,19 +117,21 @@
     }
 
     .search-input {
-      padding: 10px 15px 10px 40px;
+      padding: 8px 12px 8px 35px;
       border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
+      border-radius: 15px;
       background: rgba(255, 255, 255, 0.15);
       color: white;
-      font-size: 1rem;
+      font-size: 0.9rem;
       outline: none;
-      width: 180px;
+      width: 160px;
       transition: all 0.3s ease;
+      font-weight: 500;
+      min-height: 44px;
     }
 
     .search-input:focus {
-      width: 240px;
+      width: 200px;
       border-color: #667eea;
       background: rgba(255, 255, 255, 0.25);
     }
@@ -128,41 +142,47 @@
 
     .search-icon {
       position: absolute;
-      left: 12px;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 1rem;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 0.9rem;
     }
 
     .logout-btn {
       background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
+      padding: 8px 18px;
+      border-radius: 15px;
       cursor: pointer;
       font-weight: 600;
+      font-size: 0.9rem;
       transition: all 0.3s ease;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .logout-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
     }
 
     .container {
       max-width: 1200px;
-      margin: 100px auto 80px;
-      padding: 0 20px;
+      margin: 60px auto 80px;
+      padding: 0 15px;
       width: 100%;
     }
 
     .form-container {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      border: 2px solid transparent;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeInUp 0.5s ease forwards;
@@ -175,30 +195,35 @@
 
     .page-header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
+      padding: 8px 0;
     }
 
     .page-title {
-      font-size: 2.2rem;
-      font-weight: 700;
+      font-size: 1.8rem;
+      font-weight: 900;
       color: #2d3748;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .page-subtitle {
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       color: #718096;
-      font-weight: 400;
+      font-weight: 500;
+      letter-spacing: 0.03em;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 30px;
+      gap: 20px;
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       position: relative;
     }
 
@@ -212,16 +237,16 @@
 
     .form-input, .form-textarea, .form-select {
       width: 100%;
-      padding: 15px 20px;
+      padding: 12px 15px;
       border: 2px solid #e2e8f0;
-      border-radius: 15px;
-      font-size: 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
       background: rgba(255, 255, 255, 0.8);
       color: #2d3748;
       transition: all 0.3s ease;
       outline: none;
       font-family: inherit;
-      min-height: 50px;
+      min-height: 44px;
     }
 
     #poster-name, #title {
@@ -235,7 +260,7 @@
 
     .form-input:focus, .form-textarea:focus, .form-select:focus {
       border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
       background: white;
     }
 
@@ -259,6 +284,17 @@
       display: block;
     }
 
+    .char-count {
+      font-size: 0.8rem;
+      color: #718096;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    .char-count.error {
+      color: #ff6b6b;
+    }
+
     .form-select {
       appearance: none;
       background: rgba(255, 255, 255, 0.8) url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNhMGFlYzAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSIvPjwvc3ZnPg==') no-repeat right 15px center;
@@ -270,24 +306,23 @@
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       border: none;
-      padding: 15px 25px;
-      border-radius: 15px;
+      padding: 12px 20px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.9rem;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       width: 100%;
       justify-content: center;
-      min-height: 50px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      min-height: 44px;
     }
 
     .form-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
 
     .form-button:disabled {
@@ -302,46 +337,50 @@
     .footer {
       background: #000000;
       color: white;
-      padding: 60px 0 30px;
-      margin-top: 80px;
+      padding: 50px 0 20px;
       border-top: 3px solid #667eea;
     }
 
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 30px;
+      padding: 0 15px;
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px;
+      gap: 30px;
     }
 
     .footer-section h4 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 20px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 15px;
       color: #667eea;
       border-bottom: 2px solid #667eea;
-      padding-bottom: 10px;
+      padding-bottom: 8px;
+      letter-spacing: 0.03em;
     }
 
     .footer-section p {
       color: #cccccc;
-      line-height: 1.6;
-      margin-bottom: 15px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
     }
 
     .footer-links {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .footer-links a {
       color: #cccccc;
       text-decoration: none;
       transition: all 0.3s ease;
-      padding: 5px 0;
+      padding: 4px 0;
+      font-size: 0.9rem;
+      font-weight: 500;
     }
 
     .footer-links a:hover {
@@ -351,13 +390,13 @@
 
     .social-links {
       display: flex;
-      gap: 15px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 15px;
     }
 
     .social-links a {
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       background: #333333;
       border: 2px solid #667eea;
       border-radius: 50%;
@@ -376,10 +415,12 @@
 
     .footer-bottom {
       text-align: center;
-      padding-top: 30px;
-      margin-top: 40px;
+      padding-top: 20px;
+      margin-top: 30px;
       border-top: 1px solid #333333;
       color: #888888;
+      font-size: 0.85rem;
+      font-weight: 500;
     }
 
     .notification {
@@ -389,14 +430,14 @@
       transform: translate(-50%, -50%);
       background: linear-gradient(135deg, #11998e, #38ef7d);
       color: white;
-      padding: 15px 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       opacity: 0;
       transform: translate(-50%, -50%) translateY(-20px);
-      transition: all 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
       z-index: 10000;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
       text-align: center;
       max-width: 90%;
@@ -413,49 +454,120 @@
     }
 
     @media (max-width: 768px) {
+      .navbar {
+        padding: 8px 0;
+      }
+
       .navbar-content {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px 20px;
+        padding: 0 8px;
+        position: relative;
+      }
+
+      .navbar-brand {
+        font-size: 1.4rem;
+      }
+
+      .hamburger {
+        display: block;
       }
 
       .navbar-nav {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 70%;
+        max-width: 300px;
+        background: rgba(45, 55, 72, 0.95);
+        flex-direction: column;
+        padding: 20px;
+        border-left: 1px solid rgba(255, 255, 255, 0.2);
+        z-index: 999;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        height: auto;
       }
 
-      .search-container {
-        display: none;
+      .navbar-nav.active {
+        display: flex;
+        transform: translateX(0);
+      }
+
+      .navbar a {
+        padding: 10px;
+        font-size: 1rem;
+        justify-content: flex-start;
+      }
+
+      .navbar a span {
+        display: inline;
+      }
+
+      .logout-btn {
+        padding: 10px;
+        width: 100%;
+        justify-content: flex-start;
       }
 
       .container {
-        margin-top: 140px;
-        padding: 0 15px;
-        width: 100%;
+        margin-top: 50px;
       }
 
-      .form-container {
-        padding: 30px 20px;
-        max-width: 100%;
+      .search-container.mobile-only {
+        max-width: 1200px;
+        margin: 8px auto;
+        padding: 0 8px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        transition: transform 0.3s ease;
+        z-index: 900;
+      }
+
+      .search-container.mobile-only.hidden {
+        transform: translateY(-100%);
+      }
+
+      .search-input {
+        border: 2px solid #e2e8f0;
+        background: rgba(255, 255, 255, 0.9);
+        color: #2d3748;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .search-input:focus {
+        max-width: 350px;
+        border-color: #667eea;
+        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+      }
+
+      .search-icon {
+        color: #2d3748;
+        left: 25px;
       }
 
       .form-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
+      }
+
+      .form-container {
+        padding: 20px;
       }
 
       .page-title {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
       }
 
-      .form-group {
-        margin-bottom: 15px;
+      .page-subtitle {
+        font-size: 0.9rem;
       }
 
       .form-input, .form-textarea, .form-select {
-        padding: 12px 15px;
-        font-size: 0.9rem;
+        padding: 10px 12px;
+        font-size: 0.85rem;
         min-height: 44px;
       }
 
@@ -464,13 +576,14 @@
       }
 
       .form-button {
-        padding: 12px 20px;
+        padding: 10px 15px;
+        font-size: 0.85rem;
         min-height: 44px;
       }
 
       .footer-content {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 20px;
         text-align: center;
       }
 
@@ -480,64 +593,69 @@
     }
 
     @media (max-width: 480px) {
-      .container {
-        padding: 0 10px;
+      .navbar-brand {
+        font-size: 1.2rem;
       }
 
-      .form-container {
-        padding: 20px 15px;
+      .page-title {
+        font-size: 1.3rem;
+      }
+
+      .page-subtitle {
+        font-size: 0.85rem;
       }
 
       .form-input, .form-textarea, .form-select {
-        min-height: 44px;
-      }
-
-      .form-textarea {
-        min-height: 60px;
+        font-size: 0.8rem;
       }
 
       .form-button {
-        min-height: 44px;
+        font-size: 0.8rem;
       }
     }
   </style>
 </head>
 <body>
-  <nav class="navbar">
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar-content">
       <div class="navbar-brand">
         <i class="fas fa-home"></i>
         Family Hub
       </div>
+      <button class="hamburger" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
       <div class="navbar-nav">
-        <a href="posts.html"><i class="fas fa-newspaper"></i> Posts</a>
-        <a href="events.html"><i class="fas fa-calendar"></i> Events</a>
-        <a href="recipes.html"><i class="fas fa-utensils"></i> Recipes</a>
-        <a href="books.html"><i class="fas fa-book"></i> Books</a>
-        <a href="blogs.html"><i class="fas fa-blog"></i> Blogs</a>
-        <a href="add-post.html" class="active"><i class="fas fa-plus"></i> Add Post</a>
+        <a href="posts.html"><i class="fas fa-newspaper"></i><span>Posts</span></a>
+        <a href="events.html"><i class="fas fa-calendar"></i><span>Events</span></a>
+        <a href="recipes.html"><i class="fas fa-utensils"></i><span>Recipes</span></a>
+        <a href="books.html"><i class="fas fa-book"></i><span>Books</span></a>
+        <a href="blogs.html"><i class="fas fa-blog"></i><span>Blogs</span></a>
+        <a href="add-post.html" class="active"><i class="fas fa-plus"></i><span>Add Post</span></a>
         <div class="search-container">
           <i class="fas fa-search search-icon"></i>
-          <input type="text" class="search-input" placeholder="Search posts..." id="search-input">
+          <input type="text" class="search-input" placeholder="Search posts..." id="search-input" aria-label="Search posts">
         </div>
         <button id="logout" class="logout-btn">
-          <i class="fas fa-sign-out-alt"></i> Logout
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
         </button>
       </div>
     </div>
   </nav>
 
   <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Add New Content</h1>
+      <p class="page-subtitle">Share your posts, events, recipes, or blogs with the family</p>
+    </div>
+    <div class="search-container mobile-only">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="Search posts..." id="search-input-mobile" aria-label="Search posts">
+    </div>
     <div class="form-container">
-      <div class="page-header">
-        <h1 class="page-title">Add New Content</h1>
-        <p class="page-subtitle">Share your posts, events, recipes, or blogs with the family</p>
-      </div>
       <div class="form-grid" id="form-grid">
         <div id="left-column">
           <div class="form-group">
             <label for="content-type">Content Type</label>
-            <select id="content-type" class="form-select" required>
+            <select id="content-type" class="form-select" required aria-label="Select content type">
               <option value="post">Post</option>
               <option value="event">Event</option>
               <option value="recipe">Recipe</option>
@@ -547,28 +665,31 @@
           </div>
           <div class="form-group">
             <label for="poster-name">Your Name</label>
-            <input id="poster-name" type="text" placeholder="Enter your name" class="form-input" required>
+            <input id="poster-name" type="text" placeholder="Enter your name" class="form-input" required maxlength="50" aria-label="Your name">
             <div class="error-message">Name is required</div>
+            <span class="char-count" id="poster-name-count">0/50</span>
           </div>
           <div class="form-group">
             <label for="title">Title</label>
-            <input id="title" type="text" placeholder="Enter title" class="form-input" required>
+            <input id="title" type="text" placeholder="Enter title" class="form-input" required maxlength="100" aria-label="Content title">
             <div class="error-message">Title is required</div>
+            <span class="char-count" id="title-count">0/100</span>
           </div>
           <div class="form-group">
             <label for="image-link">Image URL (optional)</label>
-            <input id="image-link" type="url" placeholder="Enter image URL" class="form-input">
+            <input id="image-link" type="url" placeholder="Enter image URL" class="form-input" aria-label="Image URL">
           </div>
         </div>
         <div id="right-column">
           <div class="form-group full-width">
             <label for="description">Description</label>
-            <textarea id="description" placeholder="Enter description" class="form-textarea" required></textarea>
+            <textarea id="description" placeholder="Enter description" class="form-textarea" required maxlength="1000" aria-label="Content description"></textarea>
             <div class="error-message">Description is required</div>
+            <span class="char-count" id="description-count">0/1000</span>
           </div>
         </div>
         <div class="form-group full-width">
-          <button id="submit-post" class="form-button">
+          <button id="submit-post" class="form-button" aria-label="Submit content">
             <i class="fas fa-paper-plane"></i> Submit Content
           </button>
         </div>
@@ -582,10 +703,10 @@
         <h4>Family Hub</h4>
         <p>Connecting families through shared moments, memories, and love. Your digital family home where every story matters and brings us closer together.</p>
         <div class="social-links">
-          <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" title="Twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
       <div class="footer-section">
@@ -613,7 +734,7 @@
       <div class="footer-section">
         <h4>Stay Connected</h4>
         <p>Get the latest updates about your family's activities and never miss a special moment.</p>
-        <p style="margin-top: 15px; color: #667eea;"><i class="fas fa-heart"></i> Made with love for families everywhere</p>
+        <p style="margin-top: 12px; color: #667eea;"><i class="fas fa-heart"></i> Made with love for families everywhere</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -646,6 +767,12 @@
     const formGrid = document.getElementById('form-grid');
     const leftColumn = document.getElementById('left-column');
     const rightColumn = document.getElementById('right-column');
+    const hamburger = document.querySelector('.hamburger');
+    const navbarNav = document.querySelector('.navbar-nav');
+    const navbar = document.querySelector('.navbar');
+    const searchContainerMobile = document.querySelector('.search-container.mobile-only');
+    let lastScrollY = 0;
+    let isScrolling;
 
     // Auth State Listener
     auth.onAuthStateChanged(user => {
@@ -653,8 +780,57 @@
     });
 
     // Logout
-    logoutBtn.addEventListener('click', () => {
+    logoutBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       auth.signOut().then(() => window.location.href = 'index.html');
+    });
+
+    // Hamburger Menu Toggle
+    hamburger.addEventListener('click', () => {
+      navbarNav.classList.toggle('active');
+      hamburger.innerHTML = navbarNav.classList.contains('active') ?
+        `<i class="fas fa-times"></i>` :
+        `<i class="fas fa-bars"></i>`;
+      hamburger.setAttribute('aria-label', navbarNav.classList.contains('active') ? 'Close menu' : 'Open menu');
+    });
+
+    // Scroll Behavior
+    window.addEventListener('scroll', () => {
+      clearTimeout(isScrolling);
+      const currentScrollY = window.scrollY;
+      const isMobile = window.innerWidth <= 768;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        navbar.classList.add('hidden');
+        if (isMobile) searchContainerMobile.classList.add('hidden');
+        navbarNav.classList.remove('active');
+        hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+        hamburger.setAttribute('aria-label', 'Open menu');
+      } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+        navbar.classList.remove('hidden');
+        if (isMobile) searchContainerMobile.classList.remove('hidden');
+      }
+
+      lastScrollY = currentScrollY;
+      isScrolling = setTimeout(() => {}, 150);
+    });
+
+    // Click Outside to Close Menu
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.navbar-content') && !e.target.closest('.hamburger')) {
+        navbarNav.classList.remove('active');
+        hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+        hamburger.setAttribute('aria-label', 'Open menu');
+      }
+    });
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        navbarNav.classList.remove('active');
+        hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+        hamburger.setAttribute('aria-label', 'Open menu');
+      }
     });
 
     // Form Field Configurations
@@ -668,6 +844,24 @@
           inputType: 'input',
           required: true,
           error: 'Event date is required'
+        },
+        {
+          id: 'time',
+          label: 'Event Time',
+          type: 'time',
+          inputType: 'input',
+          required: true,
+          error: 'Event time is required'
+        },
+        {
+          id: 'tags',
+          label: 'Tags (comma-separated, max 5)',
+          type: 'text',
+          placeholder: 'e.g., Family, Celebration',
+          inputType: 'input',
+          required: false,
+          error: 'Each tag must be 20 characters or less',
+          maxLength: 100
         }
       ],
       recipe: [
@@ -677,7 +871,8 @@
           type: 'textarea',
           placeholder: 'Enter ingredients',
           required: true,
-          error: 'Ingredients are required'
+          error: 'Ingredients are required',
+          maxLength: 1000
         },
         {
           id: 'steps',
@@ -685,7 +880,8 @@
           type: 'textarea',
           placeholder: 'Enter steps',
           required: true,
-          error: 'Steps are required'
+          error: 'Steps are required',
+          maxLength: 1000
         }
       ],
       blog: [
@@ -695,7 +891,8 @@
           type: 'textarea',
           placeholder: 'Enter blog content',
           required: true,
-          error: 'Blog content is required'
+          error: 'Blog content is required',
+          maxLength: 2000
         }
       ]
     };
@@ -705,8 +902,9 @@
       rightColumn.innerHTML = `
         <div class="form-group full-width">
           <label for="description">Description</label>
-          <textarea id="description" placeholder="Enter description" class="form-textarea" required></textarea>
+          <textarea id="description" placeholder="Enter description" class="form-textarea" required maxlength="1000" aria-label="Content description"></textarea>
           <div class="error-message">Description is required</div>
+          <span class="char-count" id="description-count">0/1000</span>
         </div>
       `;
 
@@ -717,13 +915,28 @@
         div.innerHTML = `
           <label for="${field.id}">${field.label}</label>
           ${field.type === 'textarea' ? `
-            <textarea id="${field.id}" placeholder="${field.placeholder}" class="form-textarea" ${field.required ? 'required' : ''}></textarea>
+            <textarea id="${field.id}" placeholder="${field.placeholder}" class="form-textarea" ${field.required ? 'required' : ''} ${field.maxLength ? `maxlength="${field.maxLength}"` : ''} aria-label="${field.label}"></textarea>
           ` : `
-            <input id="${field.id}" type="${field.type}" class="form-input" ${field.required ? 'required' : ''}>
+            <input id="${field.id}" type="${field.type}" class="form-input" ${field.required ? 'required' : ''} ${field.maxLength ? `maxlength="${field.maxLength}"` : ''} aria-label="${field.label}">
           `}
           <div class="error-message">${field.error}</div>
+          ${field.maxLength ? `<span class="char-count" id="${field.id}-count">0/${field.maxLength}</span>` : ''}
         `;
         rightColumn.appendChild(div);
+      });
+
+      // Character Count Listeners
+      ['poster-name', 'title', 'description', 'ingredients', 'steps', 'content', 'tags'].forEach(id => {
+        const input = document.getElementById(id);
+        const countSpan = document.getElementById(`${id}-count`);
+        if (input && countSpan) {
+          input.addEventListener('input', () => {
+            const length = input.value.length;
+            const max = parseInt(input.getAttribute('maxlength') || '0');
+            countSpan.textContent = `${length}/${max}`;
+            countSpan.classList.toggle('error', length > max);
+          });
+        }
       });
     }
 
@@ -748,18 +961,32 @@
       const imageLink = document.getElementById('image-link').value.trim();
       const description = document.getElementById('description').value.trim();
       const date = document.getElementById('date')?.value;
+      const time = document.getElementById('time')?.value;
+      const tags = document.getElementById('tags')?.value.trim();
       const ingredients = document.getElementById('ingredients')?.value?.trim();
       const steps = document.getElementById('steps')?.value?.trim();
       const content = document.getElementById('content')?.value?.trim();
 
       const errors = [];
       if (!posterName) errors.push('Name is required');
+      if (posterName.length > 50) errors.push('Name must be 50 characters or less');
       if (!title) errors.push('Title is required');
+      if (title.length > 100) errors.push('Title must be 100 characters or less');
       if (!description) errors.push('Description is required');
+      if (description.length > 1000) errors.push('Description must be 1000 characters or less');
       if (type === 'event' && !date) errors.push('Event date is required');
+      if (type === 'event' && !time) errors.push('Event time is required');
+      if (type === 'event' && tags) {
+        const tagArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+        if (tagArray.length > 5) errors.push('Maximum 5 tags allowed');
+        if (tagArray.some(tag => tag.length > 20)) errors.push('Each tag must be 20 characters or less');
+      }
       if (type === 'recipe' && !ingredients) errors.push('Ingredients are required');
+      if (type === 'recipe' && ingredients?.length > 1000) errors.push('Ingredients must be 1000 characters or less');
       if (type === 'recipe' && !steps) errors.push('Steps are required');
+      if (type === 'recipe' && steps?.length > 1000) errors.push('Steps must be 1000 characters or less');
       if (type === 'blog' && !content) errors.push('Blog content is required');
+      if (type === 'blog' && content?.length > 2000) errors.push('Blog content must be 2000 characters or less');
 
       if (errors.length > 0) {
         submitBtn.innerHTML = originalText;
@@ -779,6 +1006,11 @@
       };
 
       if (type === 'event' && date) postData.date = date;
+      if (type === 'event' && time) postData.time = time;
+      if (type === 'event' && tags) {
+        const tagArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+        if (tagArray.length) postData.tags = tagArray;
+      }
       if (type === 'recipe' && ingredients && steps) {
         postData.ingredients = ingredients;
         postData.steps = steps;
