@@ -31,15 +31,12 @@
       position: fixed;
       top: 0;
       width: 100%;
-      max-width: 100%;
       z-index: 1000;
-      overflow-x: hidden;
       height: 48px;
     }
     .navbar.hidden { transform: translateY(-100%); }
     .navbar-content {
       max-width: 1200px;
-      width: 100%;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -154,9 +151,8 @@
       box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
     }
     .content {
-      margin-top: 60px;
+      margin-top: 104px;
       width: 100%;
-      max-width: 100%;
       padding: 0;
       overflow-x: hidden;
     }
@@ -174,7 +170,6 @@
       margin-bottom: 80px;
       align-items: start;
       width: 100%;
-      max-width: 100%;
     }
     .post {
       background: white;
@@ -188,7 +183,6 @@
       transform: translateY(20px);
       animation: fadeInUp 0.5s ease forwards;
       width: 100%;
-      max-width: 100%;
     }
     .post:nth-child(1) { animation-delay: 0.1s; }
     .post:nth-child(2) { animation-delay: 0.2s; }
@@ -445,7 +439,6 @@
       grid-column: 1 / -1;
       border: 2px solid #e2e8f0;
       width: 100%;
-      max-width: 100%;
     }
     .empty-state i {
       font-size: 3rem;
@@ -469,7 +462,6 @@
       padding: 50px 0 20px;
       border-top: 3px solid #667eea;
       width: 100%;
-      max-width: 100%;
       overflow-x: hidden;
     }
     .footer-content {
@@ -582,7 +574,6 @@
       font-weight: 600;
       color: #2d3748;
       width: 100%;
-      max-width: 100%;
     }
     .loading::after {
       content: '';
@@ -624,25 +615,23 @@
     }
     @media (max-width: 768px) {
       .navbar { padding: 8px 0; height: 48px; }
-      .navbar-content { padding: 0 8px; width: 100%; max-width: 100%; }
+      .navbar-content { padding: 0 8px; width: 100%; }
       .navbar-brand { font-size: 1.4rem; }
       .hamburger { display: block; }
       .navbar-nav {
         display: none;
         position: fixed;
         top: 48px;
-        left: 0;
-        width: 100%;
-        max-width: 100%;
+        right: 0;
+        width: 80%;
+        max-width: 300px;
         height: calc(100vh - 48px);
         background: #2d3748;
-        opacity: 0.95;
         flex-direction: column;
         padding: 20px;
         z-index: 1001;
         transform: translateX(100%);
         transition: transform 0.3s ease;
-        overflow-y: auto;
       }
       .navbar-nav.active {
         display: flex;
@@ -663,46 +652,34 @@
       }
       .search-container {
         width: 100%;
-        justify-content: flex-start;
+        padding: 10px 0;
       }
       .search-input {
         width: 100%;
-        max-width: 100%;
         padding-left: 35px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        color: #2d3748;
       }
-      .content { margin-top: 104px; padding: 0; }
-      .search-container.mobile-only {
-        max-width: 100%;
+      .search-input:focus {
         width: 100%;
-        margin: 0;
+        border-color: #667eea;
+        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+      }
+      .search-icon { color: #2d3748; }
+      .search-container.mobile-only {
+        width: 100%;
         padding: 8px;
         position: fixed;
         top: 48px;
         left: 0;
         display: none;
-        justify-content: center;
+        background: white;
         z-index: 999;
-        background: rgba(255, 255, 255, 0.9);
       }
-      .search-container.mobile-only.visible { display: flex; }
-      .search-container.mobile-only.hidden { display: none; }
-      .search-input {
-        border: 2px solid #e2e8f0;
-        background: rgba(255, 255, 255, 0.9);
-        color: #2d3748;
-        width: 100%;
-        max-width: 100%;
-        padding-left: 35px;
-      }
-      .search-input:focus {
-        width: 100%;
-        max-width: 100%;
-        border-color: #667eea;
-        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
-      }
-      .search-icon { color: #2d3748; left: 15px; }
-      #posts-container { grid-template-columns: 1fr; gap: 15px; width: 100%; max-width: 100%; }
-      .post { padding: 12px; min-height: 180px; width: 100%; max-width: 100%; }
+      .search-container.mobile-only.active { display: flex; }
+      #posts-container { grid-template-columns: 1fr; gap: 15px; width: 100%; }
+      .post { padding: 12px; min-height: 180px; width: 100%; }
       .post-content-wrapper { padding: 12px; }
       .post-header { gap: 8px; }
       .post-avatar { width: 36px; height: 36px; font-size: 14px; }
@@ -821,7 +798,6 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Firebase Configuration
       const firebaseConfig = {
         apiKey: "AIzaSyCLN4tBTvhbzrN7zGd2_1nRfAI7sHaS9PA",
         authDomain: "up-stok.firebaseapp.com",
@@ -833,7 +809,6 @@
         measurementId: "G-6J1ZD1MXMQ"
       };
 
-      // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       const auth = firebase.auth();
       const db = firebase.database();
@@ -848,99 +823,69 @@
       const searchContainerMobile = document.querySelector('.search-container.mobile-only');
       let cachedPosts = null;
       let lastScrollY = 0;
-      let isScrolling;
 
-      // Debug logs
-      console.log('DOM loaded, hamburger exists:', !!hamburger);
-      console.log('navbarNav exists:', !!navbarNav);
-      console.log('searchContainerMobile exists:', !!searchContainerMobile);
-
-      // Authentication check
       auth.onAuthStateChanged(user => {
         if (!user) window.location.href = 'index.html';
       });
 
-      // Logout functionality
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
           auth.signOut().then(() => window.location.href = 'index.html');
         });
       }
 
-      // Hamburger menu functionality
       if (hamburger && navbarNav) {
         hamburger.addEventListener('click', (e) => {
           e.stopPropagation();
-          console.log('Hamburger clicked');
           navbarNav.classList.toggle('active');
           hamburger.innerHTML = navbarNav.classList.contains('active') ?
             `<i class="fas fa-times"></i>` : `<i class="fas fa-bars"></i>`;
           hamburger.setAttribute('aria-label', navbarNav.classList.contains('active') ? 'Close menu' : 'Open menu');
-          console.log('Menu state:', navbarNav.classList.contains('active') ? 'Open' : 'Closed');
-          if (navbarNav.classList.contains('active') && searchContainerMobile) {
-            searchContainerMobile.classList.add('hidden');
-          }
+          searchContainerMobile.classList.toggle('active', !navbarNav.classList.contains('active'));
         });
       }
 
-      // Scroll behavior for navbar and mobile search
       window.addEventListener('scroll', () => {
-        clearTimeout(isScrolling);
         const currentScrollY = window.scrollY;
         const isMobile = window.innerWidth <= 768;
         if (currentScrollY > lastScrollY && currentScrollY > 50 && !navbarNav.classList.contains('active')) {
           navbar.classList.add('hidden');
-          if (isMobile && searchContainerMobile) searchContainerMobile.classList.add('hidden');
+          if (isMobile) searchContainerMobile.classList.remove('active');
         } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
           navbar.classList.remove('hidden');
-          if (isMobile && searchContainerMobile) searchContainerMobile.classList.add('visible');
+          if (isMobile) searchContainerMobile.classList.add('active');
         }
         backToTopBtn.classList.toggle('show', currentScrollY > 300);
         lastScrollY = currentScrollY;
-        isScrolling = setTimeout(() => {}, 150);
       });
 
-      // Back to top functionality
       if (backToTopBtn) {
         backToTopBtn.addEventListener('click', () => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       }
 
-      // Click outside to collapse navbar and comments
       document.addEventListener('click', (e) => {
-        if (!e.target.closest('.navbar-nav') && !e.target.closest('.hamburger') && navbarNav && !e.target.closest('.navbar-nav *')) {
+        if (!e.target.closest('.navbar-nav') && !e.target.closest('.hamburger') && navbarNav) {
           navbarNav.classList.remove('active');
-          if (hamburger) {
-            hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
-            hamburger.setAttribute('aria-label', 'Open menu');
-          }
-          if (searchContainerMobile && window.innerWidth <= 768) {
-            searchContainerMobile.classList.add('visible');
-          }
+          hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+          hamburger.setAttribute('aria-label', 'Open menu');
+          if (window.innerWidth <= 768) searchContainerMobile.classList.add('active');
         }
         if (!e.target.closest('.comment-section')) {
-          document.querySelectorAll('.comments-list.active').forEach(list => {
-            list.classList.remove('active');
-          });
+          document.querySelectorAll('.comments-list.active').forEach(list => list.classList.remove('active'));
         }
       });
 
-      // Escape key to close navbar
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && navbarNav) {
           navbarNav.classList.remove('active');
-          if (hamburger) {
-            hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
-            hamburger.setAttribute('aria-label', 'Open menu');
-          }
-          if (searchContainerMobile && window.innerWidth <= 768) {
-            searchContainerMobile.classList.add('visible');
-          }
+          hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+          hamburger.setAttribute('aria-label', 'Open menu');
+          if (window.innerWidth <= 768) searchContainerMobile.classList.add('active');
         }
       });
 
-      // Search functionality
       if (searchInput) {
         searchInput.addEventListener('input', () => {
           if (cachedPosts) renderPosts(cachedPosts);
@@ -954,7 +899,6 @@
         });
       }
 
-      // Helper functions
       function getUserInitials(name) {
         if (!name) return '?';
         return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
@@ -971,7 +915,6 @@
                new Date(timestamp).toLocaleDateString();
       }
 
-      // Load posts
       db.ref('posts').on('value', snapshot => {
         cachedPosts = snapshot.val();
         renderPosts(cachedPosts);
@@ -1073,7 +1016,6 @@
           `;
           postsContainer.appendChild(postElement);
 
-          // Comment toggle
           const header = postElement.querySelector('.comment-section h4');
           if (header) {
             header.addEventListener('click', (e) => {
@@ -1085,7 +1027,6 @@
         });
       }
 
-      // Like functionality
       function toggleLike(postId) {
         const user = auth.currentUser;
         if (user) {
@@ -1100,7 +1041,6 @@
         }
       }
 
-      // Comment functionality
       function addComment(postId) {
         const user = auth.currentUser;
         const commentInput = document.getElementById(`comment-${postId}`);
@@ -1135,7 +1075,6 @@
         }
       }
 
-      // Notification function
       function showNotification(message, isError = false) {
         const notification = document.createElement('div');
         notification.className = `notification ${isError ? 'error' : ''}`;
@@ -1148,7 +1087,6 @@
         }, 3000);
       }
 
-      // Enter key support for comments
       document.addEventListener('keypress', (e) => {
         if (e.target.classList.contains('comment-input') && e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
@@ -1157,7 +1095,6 @@
         }
       });
 
-      // Image modal functionality
       document.addEventListener('click', (e) => {
         if (e.target.classList.contains('post-image')) {
           const modal = document.createElement('div');
