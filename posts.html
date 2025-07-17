@@ -626,7 +626,7 @@
       .navbar { padding: 8px 0; height: 48px; }
       .navbar-content { padding: 0 8px; width: 100%; max-width: 100%; }
       .navbar-brand { font-size: 1.4rem; }
-      .hamburger { display: block !important; }
+      .hamburger { display: block; }
       .navbar-nav {
         display: none;
         position: fixed;
@@ -636,6 +636,7 @@
         max-width: 100%;
         height: calc(100vh - 48px);
         background: #2d3748;
+        opacity: 0.95;
         flex-direction: column;
         padding: 20px;
         z-index: 1001;
@@ -662,12 +663,14 @@
       }
       .search-container {
         width: 100%;
+        justify-content: flex-start;
       }
       .search-input {
         width: 100%;
         max-width: 100%;
+        padding-left: 35px;
       }
-      .content { margin-top: 96px; padding: 0; }
+      .content { margin-top: 104px; padding: 0; }
       .search-container.mobile-only {
         max-width: 100%;
         width: 100%;
@@ -679,6 +682,7 @@
         display: none;
         justify-content: center;
         z-index: 999;
+        background: rgba(255, 255, 255, 0.9);
       }
       .search-container.mobile-only.visible { display: flex; }
       .search-container.mobile-only.hidden { display: none; }
@@ -688,6 +692,7 @@
         color: #2d3748;
         width: 100%;
         max-width: 100%;
+        padding-left: 35px;
       }
       .search-input:focus {
         width: 100%;
@@ -815,361 +820,372 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script>
-    // Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCLN4tBTvhbzrN7zGd2_1nRfAI7sHaS9PA",
-      authDomain: "up-stok.firebaseapp.com",
-      databaseURL: "https://up-stok-default-rtdb.firebaseio.com",
-      projectId: "up-stok",
-      storageBucket: "up-stok.firebasestorage.app",
-      messagingSenderId: "165541670405",
-      appId: "1:165541670405:web:65c6680acb1f531b9f366c",
-      measurementId: "G-6J1ZD1MXMQ"
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCLN4tBTvhbzrN7zGd2_1nRfAI7sHaS9PA",
+        authDomain: "up-stok.firebaseapp.com",
+        databaseURL: "https://up-stok-default-rtdb.firebaseio.com",
+        projectId: "up-stok",
+        storageBucket: "up-stok.firebasestorage.app",
+        messagingSenderId: "165541670405",
+        appId: "1:165541670405:web:65c6680acb1f531b9f366c",
+        measurementId: "G-6J1ZD1MXMQ"
+      };
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.database();
-    const postsContainer = document.getElementById('posts-container');
-    const logoutBtn = document.getElementById('logout');
-    const searchInput = document.getElementById('search-input');
-    const searchInputMobile = document.getElementById('search-input-mobile');
-    const backToTopBtn = document.getElementById('back-to-top');
-    const hamburger = document.querySelector('.hamburger');
-    const navbarNav = document.querySelector('.navbar-nav');
-    const navbar = document.querySelector('.navbar');
-    const searchContainerMobile = document.querySelector('.search-container.mobile-only');
-    let cachedPosts = null;
-    let lastScrollY = 0;
-    let isScrolling;
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.database();
+      const postsContainer = document.getElementById('posts-container');
+      const logoutBtn = document.getElementById('logout');
+      const searchInput = document.getElementById('search-input');
+      const searchInputMobile = document.getElementById('search-input-mobile');
+      const backToTopBtn = document.getElementById('back-to-top');
+      const hamburger = document.querySelector('.hamburger');
+      const navbarNav = document.querySelector('.navbar-nav');
+      const navbar = document.querySelector('.navbar');
+      const searchContainerMobile = document.querySelector('.search-container.mobile-only');
+      let cachedPosts = null;
+      let lastScrollY = 0;
+      let isScrolling;
 
-    // Authentication check
-    auth.onAuthStateChanged(user => {
-      if (!user) window.location.href = 'index.html';
-    });
+      // Debug logs
+      console.log('DOM loaded, hamburger exists:', !!hamburger);
+      console.log('navbarNav exists:', !!navbarNav);
+      console.log('searchContainerMobile exists:', !!searchContainerMobile);
 
-    // Logout functionality
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        auth.signOut().then(() => window.location.href = 'index.html');
+      // Authentication check
+      auth.onAuthStateChanged(user => {
+        if (!user) window.location.href = 'index.html';
       });
-    }
 
-    // Hamburger menu functionality
-    if (hamburger && navbarNav) {
-      hamburger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        console.log('Hamburger clicked, navbarNav exists:', !!navbarNav);
-        navbarNav.classList.toggle('active');
-        hamburger.innerHTML = navbarNav.classList.contains('active') ?
-          `<i class="fas fa-times"></i>` : `<i class="fas fa-bars"></i>`;
-        hamburger.setAttribute('aria-label', navbarNav.classList.contains('active') ? 'Close menu' : 'Open menu');
-        console.log('Menu state:', navbarNav.classList.contains('active') ? 'Open' : 'Closed');
-      });
-    }
-
-    // Scroll behavior for navbar and mobile search
-    window.addEventListener('scroll', () => {
-      clearTimeout(isScrolling);
-      const currentScrollY = window.scrollY;
-      const isMobile = window.innerWidth <= 768;
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        navbar.classList.add('hidden');
-        if (isMobile && searchContainerMobile) searchContainerMobile.classList.add('hidden');
-        if (navbarNav) navbarNav.classList.remove('active');
-        if (hamburger) {
-          hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
-          hamburger.setAttribute('aria-label', 'Open menu');
-        }
-      } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
-        navbar.classList.remove('hidden');
-        if (isMobile && searchContainerMobile) searchContainerMobile.classList.add('visible');
-      }
-      backToTopBtn.classList.toggle('show', currentScrollY > 300);
-      lastScrollY = currentScrollY;
-      isScrolling = setTimeout(() => {}, 150);
-    });
-
-    // Back to top functionality
-    if (backToTopBtn) {
-      backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    }
-
-    // Click outside to collapse navbar and comments
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.navbar-content') && !e.target.closest('.hamburger') && navbarNav) {
-        navbarNav.classList.remove('active');
-        if (hamburger) {
-          hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
-          hamburger.setAttribute('aria-label', 'Open menu');
-        }
-      }
-      if (!e.target.closest('.comment-section')) {
-        document.querySelectorAll('.comments-list.active').forEach(list => {
-          list.classList.remove('active');
+      // Logout functionality
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          auth.signOut().then(() => window.location.href = 'index.html');
         });
       }
-    });
 
-    // Escape key to close navbar
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && navbarNav) {
-        navbarNav.classList.remove('active');
-        if (hamburger) {
-          hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
-          hamburger.setAttribute('aria-label', 'Open menu');
+      // Hamburger menu functionality
+      if (hamburger && navbarNav) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          console.log('Hamburger clicked');
+          navbarNav.classList.toggle('active');
+          hamburger.innerHTML = navbarNav.classList.contains('active') ?
+            `<i class="fas fa-times"></i>` : `<i class="fas fa-bars"></i>`;
+          hamburger.setAttribute('aria-label', navbarNav.classList.contains('active') ? 'Close menu' : 'Open menu');
+          console.log('Menu state:', navbarNav.classList.contains('active') ? 'Open' : 'Closed');
+          if (navbarNav.classList.contains('active') && searchContainerMobile) {
+            searchContainerMobile.classList.add('hidden');
+          }
+        });
+      }
+
+      // Scroll behavior for navbar and mobile search
+      window.addEventListener('scroll', () => {
+        clearTimeout(isScrolling);
+        const currentScrollY = window.scrollY;
+        const isMobile = window.innerWidth <= 768;
+        if (currentScrollY > lastScrollY && currentScrollY > 50 && !navbarNav.classList.contains('active')) {
+          navbar.classList.add('hidden');
+          if (isMobile && searchContainerMobile) searchContainerMobile.classList.add('hidden');
+        } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+          navbar.classList.remove('hidden');
+          if (isMobile && searchContainerMobile) searchContainerMobile.classList.add('visible');
         }
-      }
-    });
-
-    // Search functionality
-    if (searchInput) {
-      searchInput.addEventListener('input', () => {
-        if (cachedPosts) renderPosts(cachedPosts);
-        if (searchInputMobile) searchInputMobile.value = searchInput.value;
+        backToTopBtn.classList.toggle('show', currentScrollY > 300);
+        lastScrollY = currentScrollY;
+        isScrolling = setTimeout(() => {}, 150);
       });
-    }
-    if (searchInputMobile) {
-      searchInputMobile.addEventListener('input', () => {
-        if (cachedPosts) renderPosts(cachedPosts);
-        if (searchInput) searchInput.value = searchInputMobile.value;
-      });
-    }
 
-    // Helper functions
-    function getUserInitials(name) {
-      if (!name) return '?';
-      return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-    }
-
-    function timeAgo(timestamp) {
-      const now = Date.now();
-      const diff = now - timestamp;
-      const minutes = Math.floor(diff / 60000);
-      const hours = Math.floor(diff / 3600000);
-      const days = Math.floor(diff / 86400000);
-      return minutes < 1 ? 'Just now' : minutes < 60 ? `${minutes}m ago` :
-             hours < 24 ? `${hours}h ago` : days < 7 ? `${days}d ago` :
-             new Date(timestamp).toLocaleDateString();
-    }
-
-    // Load posts
-    db.ref('posts').on('value', snapshot => {
-      cachedPosts = snapshot.val();
-      renderPosts(cachedPosts);
-    });
-
-    function renderPosts(posts) {
-      postsContainer.innerHTML = '';
-      if (!posts) {
-        postsContainer.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-heart"></i>
-            <h3>No family stories yet</h3>
-            <p>Be the first to share a beautiful moment with your family!</p>
-          </div>`;
-        return;
+      // Back to top functionality
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
       }
 
-      const searchQuery = (searchInput?.value || searchInputMobile?.value || '').toLowerCase();
-      const postsArray = Object.entries(posts)
-        .filter(([key, post]) => (!post.type || post.type === 'post') &&
-          (!searchQuery ||
-           post.title?.toLowerCase().includes(searchQuery) ||
-           post.description?.toLowerCase().includes(searchQuery)))
-        .sort(([,a], [,b]) => (b.timestamp || 0) - (a.timestamp || 0));
-
-      if (postsArray.length === 0 && searchQuery) {
-        postsContainer.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-search"></i>
-            <h3>No posts found</h3>
-            <p>Try a different search term!</p>
-          </div>`;
-        return;
-      }
-
-      postsArray.forEach(([postId, post], index) => {
-        const likesCount = post.likes ? Object.keys(post.likes).length : 0;
-        const commentsCount = post.comments ? Object.keys(post.comments).length : 0;
-        const userInitials = getUserInitials(post.posterName);
-        const currentUser = auth.currentUser;
-        const isLiked = currentUser && post.likes && post.likes[currentUser.uid];
-
-        const commentsHtml = post.comments
-          ? Object.values(post.comments)
-              .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0))
-              .map(comment => `
-                <div class="comment">
-                  <div class="comment-header">
-                    <div class="comment-avatar">${getUserInitials(comment.email)}</div>
-                    <div class="comment-author">${comment.email || 'Anonymous'}</div>
-                  </div>
-                  <div class="comment-text">${comment.text}</div>
-                  <div class="comment-time">${timeAgo(comment.timestamp)}</div>
-                </div>
-              `).join('')
-          : '<p style="color: #a0aec0; text-align: center; padding: 15px;">No comments yet. Be the first to comment!</p>';
-
-        const postElement = document.createElement('div');
-        postElement.className = 'post';
-        postElement.style.animationDelay = `${index * 0.1}s`;
-        postElement.innerHTML = `
-          <div class="post-content-wrapper">
-            <div class="post-header">
-              <div class="post-avatar">${userInitials}</div>
-              <div class="post-info">
-                <h3>${post.title || 'Untitled'}</h3>
-                <div class="post-meta">
-                  <span><i class="fas fa-user"></i> ${post.posterName || 'Anonymous'}</span>
-                  <span><i class="fas fa-clock"></i> ${timeAgo(post.timestamp)}</span>
-                </div>
-              </div>
-            </div>
-            ${post.imageLink ? `
-              <div class="post-image-container">
-                <img src="${post.imageLink}" alt="${post.title || 'Image'}" class="post-image" onerror="this.parentElement.style.display='none'">
-              </div>
-            ` : ''}
-            <div class="post-description">${post.description || 'No description'}</div>
-            <div class="post-actions">
-              <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${postId}')">
-                <i class="fas fa-heart"></i>
-                <span>${likesCount} ${likesCount === 1 ? 'Like' : 'Likes'}</span>
-              </button>
-              <div class="post-stats">
-                <span><i class="fas fa-comments"></i> ${commentsCount} ${commentsCount === 1 ? 'Comment' : 'Comments'}</span>
-              </div>
-            </div>
-            <div class="comment-section">
-              <h4 data-post-id="${postId}" aria-label="Toggle comments"><i class="fas fa-comments"></i> Comments</h4>
-              <div class="comments-list">${commentsHtml}</div>
-              <div class="comment-form">
-                <textarea class="comment-input" placeholder="Share your thoughts..." rows="2" id="comment-${postId}" aria-label="Add comment"></textarea>
-                <button class="comment-btn" onclick="addComment('${postId}')">
-                  <i class="fas fa-paper-plane"></i> Comment
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
-        postsContainer.appendChild(postElement);
-
-        // Comment toggle
-        const header = postElement.querySelector('.comment-section h4');
-        if (header) {
-          header.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const commentsList = header.nextElementSibling;
-            commentsList.classList.toggle('active');
+      // Click outside to collapse navbar and comments
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.navbar-nav') && !e.target.closest('.hamburger') && navbarNav && !e.target.closest('.navbar-nav *')) {
+          navbarNav.classList.remove('active');
+          if (hamburger) {
+            hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+            hamburger.setAttribute('aria-label', 'Open menu');
+          }
+          if (searchContainerMobile && window.innerWidth <= 768) {
+            searchContainerMobile.classList.add('visible');
+          }
+        }
+        if (!e.target.closest('.comment-section')) {
+          document.querySelectorAll('.comments-list.active').forEach(list => {
+            list.classList.remove('active');
           });
         }
       });
-    }
 
-    // Like functionality
-    function toggleLike(postId) {
-      const user = auth.currentUser;
-      if (user) {
-        db.ref(`posts/${postId}/likes/${user.uid}`).transaction(currentValue => {
-          return currentValue === null ? {
+      // Escape key to close navbar
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navbarNav) {
+          navbarNav.classList.remove('active');
+          if (hamburger) {
+            hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+            hamburger.setAttribute('aria-label', 'Open menu');
+          }
+          if (searchContainerMobile && window.innerWidth <= 768) {
+            searchContainerMobile.classList.add('visible');
+          }
+        }
+      });
+
+      // Search functionality
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          if (cachedPosts) renderPosts(cachedPosts);
+          if (searchInputMobile) searchInputMobile.value = searchInput.value;
+        });
+      }
+      if (searchInputMobile) {
+        searchInputMobile.addEventListener('input', () => {
+          if (cachedPosts) renderPosts(cachedPosts);
+          if (searchInput) searchInput.value = searchInputMobile.value;
+        });
+      }
+
+      // Helper functions
+      function getUserInitials(name) {
+        if (!name) return '?';
+        return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      }
+
+      function timeAgo(timestamp) {
+        const now = Date.now();
+        const diff = now - timestamp;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(diff / 3600000);
+        const days = Math.floor(diff / 86400000);
+        return minutes < 1 ? 'Just now' : minutes < 60 ? `${minutes}m ago` :
+               hours < 24 ? `${hours}h ago` : days < 7 ? `${days}d ago` :
+               new Date(timestamp).toLocaleDateString();
+      }
+
+      // Load posts
+      db.ref('posts').on('value', snapshot => {
+        cachedPosts = snapshot.val();
+        renderPosts(cachedPosts);
+      });
+
+      function renderPosts(posts) {
+        postsContainer.innerHTML = '';
+        if (!posts) {
+          postsContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-heart"></i>
+              <h3>No family stories yet</h3>
+              <p>Be the first to share a beautiful moment with your family!</p>
+            </div>`;
+          return;
+        }
+
+        const searchQuery = (searchInput?.value || searchInputMobile?.value || '').toLowerCase();
+        const postsArray = Object.entries(posts)
+          .filter(([key, post]) => (!post.type || post.type === 'post') &&
+            (!searchQuery ||
+             post.title?.toLowerCase().includes(searchQuery) ||
+             post.description?.toLowerCase().includes(searchQuery)))
+          .sort(([,a], [,b]) => (b.timestamp || 0) - (a.timestamp || 0));
+
+        if (postsArray.length === 0 && searchQuery) {
+          postsContainer.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-search"></i>
+              <h3>No posts found</h3>
+              <p>Try a different search term!</p>
+            </div>`;
+          return;
+        }
+
+        postsArray.forEach(([postId, post], index) => {
+          const likesCount = post.likes ? Object.keys(post.likes).length : 0;
+          const commentsCount = post.comments ? Object.keys(post.comments).length : 0;
+          const userInitials = getUserInitials(post.posterName);
+          const currentUser = auth.currentUser;
+          const isLiked = currentUser && post.likes && post.likes[currentUser.uid];
+
+          const commentsHtml = post.comments
+            ? Object.values(post.comments)
+                .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0))
+                .map(comment => `
+                  <div class="comment">
+                    <div class="comment-header">
+                      <div class="comment-avatar">${getUserInitials(comment.email)}</div>
+                      <div class="comment-author">${comment.email || 'Anonymous'}</div>
+                    </div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-time">${timeAgo(comment.timestamp)}</div>
+                  </div>
+                `).join('')
+            : '<p style="color: #a0aec0; text-align: center; padding: 15px;">No comments yet. Be the first to comment!</p>';
+
+          const postElement = document.createElement('div');
+          postElement.className = 'post';
+          postElement.style.animationDelay = `${index * 0.1}s`;
+          postElement.innerHTML = `
+            <div class="post-content-wrapper">
+              <div class="post-header">
+                <div class="post-avatar">${userInitials}</div>
+                <div class="post-info">
+                  <h3>${post.title || 'Untitled'}</h3>
+                  <div class="post-meta">
+                    <span><i class="fas fa-user"></i> ${post.posterName || 'Anonymous'}</span>
+                    <span><i class="fas fa-clock"></i> ${timeAgo(post.timestamp)}</span>
+                  </div>
+                </div>
+              </div>
+              ${post.imageLink ? `
+                <div class="post-image-container">
+                  <img src="${post.imageLink}" alt="${post.title || 'Image'}" class="post-image" onerror="this.parentElement.style.display='none'">
+                </div>
+              ` : ''}
+              <div class="post-description">${post.description || 'No description'}</div>
+              <div class="post-actions">
+                <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${postId}')">
+                  <i class="fas fa-heart"></i>
+                  <span>${likesCount} ${likesCount === 1 ? 'Like' : 'Likes'}</span>
+                </button>
+                <div class="post-stats">
+                  <span><i class="fas fa-comments"></i> ${commentsCount} ${commentsCount === 1 ? 'Comment' : 'Comments'}</span>
+                </div>
+              </div>
+              <div class="comment-section">
+                <h4 data-post-id="${postId}" aria-label="Toggle comments"><i class="fas fa-comments"></i> Comments</h4>
+                <div class="comments-list">${commentsHtml}</div>
+                <div class="comment-form">
+                  <textarea class="comment-input" placeholder="Share your thoughts..." rows="2" id="comment-${postId}" aria-label="Add comment"></textarea>
+                  <button class="comment-btn" onclick="addComment('${postId}')">
+                    <i class="fas fa-paper-plane"></i> Comment
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+          postsContainer.appendChild(postElement);
+
+          // Comment toggle
+          const header = postElement.querySelector('.comment-section h4');
+          if (header) {
+            header.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const commentsList = header.nextElementSibling;
+              commentsList.classList.toggle('active');
+            });
+          }
+        });
+      }
+
+      // Like functionality
+      function toggleLike(postId) {
+        const user = auth.currentUser;
+        if (user) {
+          db.ref(`posts/${postId}/likes/${user.uid}`).transaction(currentValue => {
+            return currentValue === null ? {
+              userId: user.uid,
+              timestamp: Date.now()
+            } : null;
+          });
+        } else {
+          showNotification('Please log in to like posts.', true);
+        }
+      }
+
+      // Comment functionality
+      function addComment(postId) {
+        const user = auth.currentUser;
+        const commentInput = document.getElementById(`comment-${postId}`);
+        if (!commentInput) return;
+
+        const commentText = commentInput.value.trim();
+        if (user && commentText) {
+          const commentBtn = commentInput.nextElementSibling;
+          const originalText = commentBtn.innerHTML;
+          commentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+          commentBtn.disabled = true;
+
+          db.ref(`posts/${postId}/comments`).push().set({
             userId: user.uid,
+            email: user.email,
+            text: commentText,
             timestamp: Date.now()
-          } : null;
-        });
-      } else {
-        showNotification('Please log in to like posts.', true);
+          }).then(() => {
+            commentInput.value = '';
+            commentBtn.innerHTML = originalText;
+            commentBtn.disabled = false;
+            showNotification('Comment posted successfully!');
+            const commentsList = commentInput.closest('.comment-section').querySelector('.comments-list');
+            commentsList.classList.add('active');
+          }).catch(() => {
+            commentBtn.innerHTML = originalText;
+            commentBtn.disabled = false;
+            showNotification('Failed to post comment.', true);
+          });
+        } else {
+          showNotification(user ? 'Comment cannot be empty.' : 'Please log in to comment.', true);
+        }
       }
-    }
 
-    // Comment functionality
-    function addComment(postId) {
-      const user = auth.currentUser;
-      const commentInput = document.getElementById(`comment-${postId}`);
-      if (!commentInput) return;
-
-      const commentText = commentInput.value.trim();
-      if (user && commentText) {
-        const commentBtn = commentInput.nextElementSibling;
-        const originalText = commentBtn.innerHTML;
-        commentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
-        commentBtn.disabled = true;
-
-        db.ref(`posts/${postId}/comments`).push().set({
-          userId: user.uid,
-          email: user.email,
-          text: commentText,
-          timestamp: Date.now()
-        }).then(() => {
-          commentInput.value = '';
-          commentBtn.innerHTML = originalText;
-          commentBtn.disabled = false;
-          showNotification('Comment posted successfully!');
-          const commentsList = commentInput.closest('.comment-section').querySelector('.comments-list');
-          commentsList.classList.add('active');
-        }).catch(() => {
-          commentBtn.innerHTML = originalText;
-          commentBtn.disabled = false;
-          showNotification('Failed to post comment.', true);
-        });
-      } else {
-        showNotification(user ? 'Comment cannot be empty.' : 'Please log in to comment.', true);
+      // Notification function
+      function showNotification(message, isError = false) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${isError ? 'error' : ''}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.classList.add('show'), 100);
+        setTimeout(() => {
+          notification.classList.remove('show');
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
       }
-    }
 
-    // Notification function
-    function showNotification(message, isError = false) {
-      const notification = document.createElement('div');
-      notification.className = `notification ${isError ? 'error' : ''}`;
-      notification.textContent = message;
-      document.body.appendChild(notification);
-      setTimeout(() => notification.classList.add('show'), 100);
-      setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => notification.remove(), 300);
-      }, 3000);
-    }
+      // Enter key support for comments
+      document.addEventListener('keypress', (e) => {
+        if (e.target.classList.contains('comment-input') && e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          const postId = e.target.id.replace('comment-', '');
+          addComment(postId);
+        }
+      });
 
-    // Enter key support for comments
-    document.addEventListener('keypress', (e) => {
-      if (e.target.classList.contains('comment-input') && e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        const postId = e.target.id.replace('comment-', '');
-        addComment(postId);
-      }
-    });
-
-    // Image modal functionality
-    document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('post-image')) {
-        const modal = document.createElement('div');
-        modal.style.cssText = `
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.9);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 10000;
-          cursor: pointer;
-        `;
-        const img = document.createElement('img');
-        img.src = e.target.src;
-        img.style.cssText = `
-          max-width: 90%;
-          max-height: 90%;
-          border-radius: 8px;
-        `;
-        modal.appendChild(img);
-        document.body.appendChild(modal);
-        modal.addEventListener('click', () => document.body.removeChild(modal));
-      }
+      // Image modal functionality
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('post-image')) {
+          const modal = document.createElement('div');
+          modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            cursor: pointer;
+          `;
+          const img = document.createElement('img');
+          img.src = e.target.src;
+          img.style.cssText = `
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+          `;
+          modal.appendChild(img);
+          document.body.appendChild(modal);
+          modal.addEventListener('click', () => document.body.removeChild(modal));
+        }
+      });
     });
   </script>
 </body>
