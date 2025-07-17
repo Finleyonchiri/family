@@ -29,11 +29,16 @@
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      padding: 12px 0;
+      padding: 10px 0;
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 1000;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar.hidden {
+      transform: translateY(-100%);
     }
 
     .navbar-content {
@@ -46,20 +51,20 @@
     }
 
     .navbar-brand {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: white;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
 
     .navbar-brand i {
       background: linear-gradient(135deg, #ff6b6b, #feca57);
-      padding: 8px;
-      border-radius: 12px;
+      padding: 6px;
+      border-radius: 10px;
       color: white;
     }
 
@@ -74,7 +79,7 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 0.95rem;
-      padding: 8px 16px;
+      padding: 8px 12px;
       border-radius: 15px;
       transition: all 0.3s ease;
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -90,6 +95,16 @@
     .navbar a.active {
       background: rgba(255, 255, 255, 0.25);
       color: white;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.2rem;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
     }
 
     .search-container {
@@ -149,19 +164,20 @@
     .content {
       margin-top: 60px;
       width: 100%;
+      padding: 0 8px;
     }
 
     .page-header {
       text-align: center;
-      margin-bottom: 20px;
-      padding: 0 10px;
+      margin-bottom: 15px;
+      padding: 8px 8px 0;
     }
 
     .page-title {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 900;
       color: #2d3748;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -170,18 +186,18 @@
     .tabs {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 15px;
     }
 
     .tab {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
-      padding: 8px 20px;
+      padding: 8px 18px;
       border-radius: 15px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       transition: all 0.3s ease;
       min-height: 44px;
       display: flex;
@@ -201,7 +217,7 @@
     .event-section {
       background: white;
       border-bottom: 2px solid #2d3748;
-      padding: 20px 0;
+      padding: 15px 0;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -217,7 +233,7 @@
     .event-inner {
       max-width: 1200px;
       width: 100%;
-      padding: 0 15px;
+      padding: 0 8px;
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
@@ -311,7 +327,7 @@
 
     .comment-section {
       margin-top: 12px;
-      padding-top: 12px;
+      padding: 12px 8px 0;
       border-top: 1px solid #e2e8f0;
       display: none;
       width: 100%;
@@ -403,7 +419,7 @@
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 0 8px;
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 30px;
@@ -512,43 +528,55 @@
       transform: translate(-50%, -50%) translateY(0);
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 8px 0;
+      }
+
       .navbar-content {
-        padding: 12px 10px;
+        padding: 0 8px;
+        position: relative;
       }
 
-      .navbar-nav {
-        gap: 6px;
-      }
-
-      .event-inner {
-        padding: 0 10px;
-      }
-
-      .event-image {
-        max-width: 250px;
-      }
-
-      .event-title {
+      .navbar-brand {
         font-size: 1.4rem;
       }
-    }
 
-    @media (max-width: 768px) {
-      .navbar-content {
-        flex-direction: column;
-        gap: 12px;
-        padding: 12px 10px;
+      .hamburger {
+        display: block;
       }
 
       .navbar-nav {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 6px;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #2d3748;
+        flex-direction: column;
+        padding: 8px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        z-index: 999;
+      }
+
+      .navbar-nav.active {
+        display: flex;
+      }
+
+      .navbar a {
+        padding: 8px;
+        font-size: 0.9rem;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .navbar a span {
+        display: none;
       }
 
       .search-container {
-        display: flex;
         width: 100%;
         justify-content: center;
       }
@@ -559,11 +587,33 @@
       }
 
       .content {
-        margin-top: 120px;
+        margin-top: 50px;
+      }
+
+      .page-header {
+        padding: 8px;
+      }
+
+      .page-title {
+        font-size: 1.4rem;
+      }
+
+      .tabs {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .tab {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+        font-size: 0.9rem;
+        padding: 8px;
       }
 
       .event-inner {
-        padding: 0 10px;
+        padding: 0 8px;
       }
 
       .event-image {
@@ -588,8 +638,16 @@
         font-size: 0.8rem;
       }
 
+      .comment-section {
+        padding: 8px;
+      }
+
       .comment-section h4 {
         font-size: 0.95rem;
+      }
+
+      .comment {
+        font-size: 0.85rem;
       }
 
       .comment-input, .button {
@@ -598,21 +656,11 @@
         padding: 6px 12px;
       }
 
-      .tabs {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .tab {
-        width: 100%;
-        max-width: 300px;
-        text-align: center;
-      }
-
       .footer-content {
         grid-template-columns: 1fr;
         gap: 20px;
         text-align: center;
+        padding: 0 8px;
       }
 
       .social-links {
@@ -621,16 +669,20 @@
     }
 
     @media (max-width: 480px) {
+      .navbar-brand {
+        font-size: 1.2rem;
+      }
+
       .page-title {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
       }
 
       .event-inner {
-        padding: 0 5px;
+        padding: 0 8px;
       }
 
       .event-section {
-        padding: 15px 0;
+        padding: 12px 0;
       }
 
       .event-title {
@@ -650,11 +702,10 @@
       }
 
       .comment {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
       }
 
       .comment-input, .button {
-        min-height: 44px;
         font-size: 0.8rem;
       }
     }
@@ -667,19 +718,20 @@
         <i class="fas fa-home"></i>
         Family Hub
       </div>
+      <button class="hamburger"><i class="fas fa-bars"></i></button>
       <div class="navbar-nav">
-        <a href="posts.html"><i class="fas fa-newspaper"></i> Posts</a>
-        <a href="events.html" class="active"><i class="fas fa-calendar"></i> Events</a>
-        <a href="recipes.html"><i class="fas fa-utensils"></i> Recipes</a>
-        <a href="books.html"><i class="fas fa-book"></i> Books</a>
-        <a href="blogs.html"><i class="fas fa-blog"></i> Blogs</a>
-        <a href="add-post.html"><i class="fas fa-plus"></i> Add Post</a>
+        <a href="posts.html"><i class="fas fa-newspaper"></i><span>Posts</span></a>
+        <a href="events.html" class="active"><i class="fas fa-calendar"></i><span>Events</span></a>
+        <a href="recipes.html"><i class="fas fa-utensils"></i><span>Recipes</span></a>
+        <a href="books.html"><i class="fas fa-book"></i><span>Books</span></a>
+        <a href="blogs.html"><i class="fas fa-blog"></i><span>Blogs</span></a>
+        <a href="add-post.html"><i class="fas fa-plus"></i><span>Add Post</span></a>
         <div class="search-container">
           <i class="fas fa-search search-icon"></i>
           <input type="text" class="search-input" placeholder="Search events..." id="search-input">
         </div>
         <button id="logout" class="logout-btn">
-          <i class="fas fa-sign-out-alt"></i> Logout
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
         </button>
       </div>
     </div>
@@ -765,9 +817,14 @@
     const logoutBtn = document.getElementById('logout');
     const searchInput = document.getElementById('search-input');
     const tabs = document.querySelectorAll('.tab');
+    const navbar = document.querySelector('.navbar');
+    const hamburger = document.querySelector('.hamburger');
+    const navbarNav = document.querySelector('.navbar-nav');
     let allEvents = [];
     let currentTab = 'upcoming';
     let countdownIntervals = [];
+    let lastScrollY = 0;
+    let isScrolling;
 
     // Auth State Listener
     auth.onAuthStateChanged(user => {
@@ -780,18 +837,41 @@
       auth.signOut().then(() => window.location.href = 'index.html');
     });
 
-    // Tab Switching
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentTab = tab.getAttribute('data-tab');
-        clearCountdownIntervals();
-        renderEvents();
-      });
+    // Hamburger Menu Toggle
+    hamburger.addEventListener('click', () => {
+      navbarNav.classList.toggle('active');
+      hamburger.innerHTML = navbarNav.classList.contains('active') ?
+        `<i class="fas fa-times"></i>` :
+        `<i class="fas fa-bars"></i>`;
     });
 
-    // Click Outside to Hide Comments
+    // Scroll Behavior
+    window.addEventListener('scroll', () => {
+      clearTimeout(isScrolling);
+      const currentScrollY = window.scrollY;
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        if (currentScrollY > lastScrollY && currentScrollY > 50) {
+          navbar.classList.add('hidden');
+          navbarNav.classList.remove('active');
+          hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+        } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+          navbar.classList.remove('hidden');
+        }
+      } else {
+        if (currentScrollY > lastScrollY && currentScrollY > 50) {
+          navbar.classList.add('hidden');
+        } else if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+          navbar.classList.remove('hidden');
+        }
+      }
+
+      lastScrollY = currentScrollY;
+      isScrolling = setTimeout(() => {}, 150);
+    });
+
+    // Click Outside to Hide Comments and Menu
     document.addEventListener('click', (e) => {
       const commentSections = document.querySelectorAll('.comment-section.active');
       commentSections.forEach(section => {
@@ -803,6 +883,10 @@
           toggleBtn.innerHTML = `<i class="fas fa-comment"></i> Comments (${comments})`;
         }
       });
+      if (!e.target.closest('.navbar-content') && !e.target.closest('.hamburger')) {
+        navbarNav.classList.remove('active');
+        hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
+      }
     });
 
     // Search Functionality
