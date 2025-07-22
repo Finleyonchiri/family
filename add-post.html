@@ -453,6 +453,19 @@
       transform: translate(-50%, -50%) translateY(0);
     }
 
+    .image-preview {
+      margin-top: 10px;
+      max-width: 200px;
+      max-height: 200px;
+      display: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-preview.show {
+      display: block;
+    }
+
     .image-link-container {
       margin-top: 10px;
       display: none;
@@ -722,13 +735,15 @@
               <a href="#" id="image-link-display" class="image-link" target="_blank"></a>
               <button class="copy-button" id="copy-button">Copy Link</button>
             </div>
+            <img id="image-preview" class="image-preview" alt="Image preview">
           </div>
         </div>
         <div id="right-column">
           <div class="form-group full-width">
             <label for="description">Description</label>
-            <textarea id="description" placeholder="Enter description" class="form-textarea" required spellcheck="true" aria-label="Content description"></textarea>
+            <textarea id="description" placeholder="Enter description" class="form-textarea" required maxlength="1000" aria-label="Content description"></textarea>
             <div class="error-message">Description is required</div>
+            <span class="char-count" id="description-count">0/1000</span>
           </div>
         </div>
         <div class="form-group full-width">
@@ -819,6 +834,7 @@
     const imageLinkDisplay = document.getElementById('image-link-display');
     const imageLinkContainer = document.getElementById('image-link-container');
     const copyButton = document.getElementById('copy-button');
+    const imagePreview = document.getElementById('image-preview');
     let lastScrollY = 0;
     let isScrolling;
 
@@ -905,6 +921,8 @@
           imageLinkDisplay.href = imageUrl;
           imageLinkDisplay.textContent = imageUrl;
           imageLinkContainer.classList.add('show');
+          imagePreview.src = imageUrl;
+          imagePreview.classList.add('show');
         } else {
           showNotification('Image upload failed. Please try again.', true);
         }
@@ -920,6 +938,7 @@
         imageLink.value = '';
         imageLinkDisplay.textContent = '';
         imageLinkContainer.classList.remove('show');
+        imagePreview.classList.remove('show');
       }
     });
 
@@ -973,7 +992,8 @@
           type: 'textarea',
           placeholder: 'Enter ingredients',
           required: true,
-          error: 'Ingredients are required'
+          error: 'Ingredients are required',
+          maxLength: 1000
         },
         {
           id: 'steps',
@@ -981,7 +1001,8 @@
           type: 'textarea',
           placeholder: 'Enter steps',
           required: true,
-          error: 'Steps are required'
+          error: 'Steps are required',
+          maxLength: 1000
         }
       ],
       blog: [
@@ -991,7 +1012,8 @@
           type: 'textarea',
           placeholder: 'Enter blog content',
           required: true,
-          error: 'Blog content is required'
+          error: 'Blog content is required',
+          maxLength: 2000
         }
       ]
     };
@@ -1001,8 +1023,9 @@
       rightColumn.innerHTML = `
         <div class="form-group full-width">
           <label for="description">Description</label>
-          <textarea id="description" placeholder="Enter description" class="form-textarea" required spellcheck="true" aria-label="Content description"></textarea>
+          <textarea id="description" placeholder="Enter description" class="form-textarea" required maxlength="1000" aria-label="Content description"></textarea>
           <div class="error-message">Description is required</div>
+          <span class="char-count" id="description-count">0/1000</span>
         </div>
       `;
 
@@ -1013,13 +1036,28 @@
         div.innerHTML = `
           <label for="${field.id}">${field.label}</label>
           ${field.type === 'textarea' ? `
-            <textarea id="${field.id}" placeholder="${field.placeholder}" class="form-textarea" ${field.required ? 'required' : ''} spellcheck="true" aria-label="${field.label}"></textarea>
+            <textarea id="${field.id}" placeholder="${field.placeholder}" class="form-textarea" ${field.required ? 'required' : ''} ${field.maxLength ? `maxlength="${field.maxLength}"` : ''} aria-label="${field.label}"></textarea>
           ` : `
             <input id="${field.id}" type="${field.type}" class="form-input" ${field.required ? 'required' : ''} ${field.maxLength ? `maxlength="${field.maxLength}"` : ''} aria-label="${field.label}">
           `}
           <div class="error-message">${field.error}</div>
+          ${field.maxLength ? `<span class="char-count" id="${field.id}-count">0/${field.maxLength}</span>` : ''}
         `;
         rightColumn.appendChild(div);
+      });
+
+      // Character Count Listeners
+      ['poster-name', 'title', 'description', 'ingredients', 'steps', 'content', 'tags'].forEach(id => {
+        const input = document.getElementById(id);
+        const countSpan = document.getElementById(`${id}-count`);
+        if (input && countSpan) {
+          input.addEventListener('input', () => {
+            const length = input.value.length;
+            const max = parseInt(input.getAttribute('maxlength') || '0');
+            countSpan.textContent = `${length}/${max}`;
+            countSpan.classList.toggle('error', length > max);
+          });
+        }
       });
     }
 
@@ -1056,6 +1094,7 @@
       if (!title) errors.push('Title is required');
       if (title.length > 100) errors.push('Title must be 100 characters or less');
       if (!description) errors.push('Description is required');
+      if (description.length > 1000) errors.push('Description must be 1000 characters or less');
       if (type === 'event' && !date) errors.push('Event date is required');
       if (type === 'event' && !time) errors.push('Event time is required');
       if (type === 'event' && tags) {
@@ -1064,8 +1103,11 @@
         if (tagArray.some(tag => tag.length > 20)) errors.push('Each tag must be 20 characters or less');
       }
       if (type === 'recipe' && !ingredients) errors.push('Ingredients are required');
+      if (type === 'recipe' && ingredients?.length > 1000) errors.push('Ingredients must be 1000 characters or less');
       if (type === 'recipe' && !steps) errors.push('Steps are required');
+      if (type === 'recipe' && steps?.length > 1000) errors.push('Steps must be 1000 characters or less');
       if (type === 'blog' && !content) errors.push('Blog content is required');
+      if (type === 'blog' && content?.length > 2000) errors.push('Blog content must be 2000 characters or less');
 
       if (errors.length > 0) {
         submitBtn.innerHTML = originalText;
