@@ -283,16 +283,46 @@
       line-height: 1.8;
       white-space: pre-wrap;
     }
+    .post-details {
+      background: #f7fafc;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      font-size: 0.95rem;
+      color: #4a5568;
+      line-height: 1.6;
+    }
+    .post-details h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 10px;
+    }
+    .post-details ul {
+      list-style: none;
+      margin-top: 8px;
+    }
+    .post-details ul li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 6px;
+    }
+    .post-details ul li:before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-size: 1.2rem;
+    }
     .post-actions {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       padding: 15px 0;
       border-top: 1px solid #e2e8f0;
-      flex-wrap: wrap;
       gap: 10px;
     }
-    .like-btn, .download-btn {
+    .download-btn {
       background: linear-gradient(135deg, #11998e, #38ef7d);
       color: white;
       border: none;
@@ -308,150 +338,9 @@
       text-decoration: none;
       min-height: 44px;
     }
-    .like-btn:hover, .download-btn:hover {
+    .download-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
-    }
-    .like-btn.liked {
-      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-    }
-    .post-stats {
-      color: #718096;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    .comment-section {
-      margin: 0 24px 24px;
-      padding-top: 20px;
-      border-top: 1px solid #e2e8f0;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-    }
-    .comment-section h4 {
-      color: #2d3748;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .comment-section h4:hover {
-      color: #667eea;
-      transform: translateX(5px);
-    }
-    .comments-list {
-      margin-bottom: 20px;
-      max-height: 300px;
-      overflow-y: auto;
-      display: none;
-    }
-    .comments-list.active {
-      display: block;
-    }
-    .comment {
-      background: #f7fafc;
-      padding: 15px 20px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      border-left: 4px solid #667eea;
-      transition: all 0.3s ease;
-      opacity: 0;
-      transform: translateX(-20px);
-      animation: slideInComment 0.5s ease forwards;
-    }
-    .comment:first-child { display: block; }
-    .comment.new-comment { animation: slideInComment 0.5s ease forwards; }
-    @keyframes slideInComment {
-      to { opacity: 1; transform: translateX(0); }
-    }
-    .comment:hover {
-      background: #edf2f7;
-      transform: translateX(5px);
-    }
-    .comment-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .comment-avatar {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ff6b6b, #feca57);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-    }
-    .comment-author {
-      font-weight: 600;
-      color: #667eea;
-      font-size: 0.9rem;
-    }
-    .comment-text {
-      color: #4a5568;
-      line-height: 1.6;
-      margin-bottom: 8px;
-      font-size: 0.95rem;
-    }
-    .comment-time {
-      color: #a0aec0;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-    .comment-form {
-      display: flex;
-      gap: 10px;
-      align-items: flex-end;
-    }
-    .comment-input {
-      flex: 1;
-      padding: 10px 15px;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      background: rgba(255, 255, 255, 0.8);
-      transition: all 0.3s ease;
-      outline: none;
-      resize: vertical;
-      min-height: 50px;
-      font-family: inherit;
-      color: #2d3748;
-    }
-    .comment-input:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      background: white;
-    }
-    .comment-input::placeholder { color: #a0aec0; }
-    .comment-btn {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .comment-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-    }
-    .comment-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
     }
     .empty-state {
       text-align: center;
@@ -715,17 +604,10 @@
       .post-meta { font-size: 0.85rem; gap: 10px; }
       .post-description { font-size: 1rem; }
       .post-content { font-size: 0.95rem; }
+      .post-details { font-size: 0.9rem; }
+      .post-details h4 { font-size: 1rem; }
       .post-actions { padding: 12px 0; }
-      .comment-section { margin: 0 0 15px; padding-top: 15px; }
-      .comment-section h4 { font-size: 1rem; }
-      .comment { padding: 12px 15px; margin-bottom: 10px; }
-      .comment-avatar { width: 30px; height: 30px; font-size: 12px; }
-      .comment-author { font-size: 0.85rem; }
-      .comment-text { font-size: 0.9rem; }
-      .comment-time { font-size: 0.8rem; }
-      .comment-input { font-size: 0.9rem; padding: 8px 12px; }
-      .like-btn, .download-btn, .comment-btn { font-size: 0.9rem; padding: 8px 15px; }
-      .post-stats { font-size: 0.85rem; }
+      .download-btn { font-size: 0.9rem; padding: 8px 15px; }
       .footer-content { grid-template-columns: 1fr; gap: 20px; text-align: center; padding: 0 8px; }
       .social-links { justify-content: center; }
     }
@@ -737,10 +619,9 @@
       .post-description { font-size: 0.95rem; }
       .post-content { font-size: 0.9rem; }
       .post-meta { font-size: 0.8rem; }
-      .comment-section h4 { font-size: 0.95rem; }
-      .comment-author, .comment-text { font-size: 0.85rem; }
-      .comment-time { font-size: 0.75rem; }
-      .comment-input, .like-btn, .download-btn, .comment-btn { font-size: 0.85rem; }
+      .post-details { font-size: 0.85rem; }
+      .post-details h4 { font-size: 0.95rem; }
+      .download-btn { font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -833,44 +714,73 @@
     const booksData = [
       {
         id: 'book1',
-        posterName: 'John Doe',
-        title: 'To Kill a Mockingbird',
-        description: 'A classic novel about justice and morality.',
-        content: 'Harper Lee\'s masterpiece explores themes of racial injustice and the loss of innocence in a small Southern town...',
-        imageLink: 'https://images.theconversation.com/files/45159/original/rptgtpxd-1396254731.jpg?ixlib=rb-4.1.0&q=45&auto=format&w=754&fit=clip',
-        downloadLink: 'https://example.com/to-kill-a-mockingbird.pdf',
+        posterName: 'JANSEN & GLORIA TROTMAN',
+        title: 'THE POWER OF EFFECTIVE PRAYER',
+        description: 'A practical and inspiring guide to transforming your prayer life—blending rich spiritual insight with actionable techniques.',
+        content: `Jansen and Gloria Trotman explore the richness of a dynamic prayer life. Covering the power and privilege of prayer, the role of the Holy Spirit, Jesus’s example, how to understand God’s answers, and how to develop consistent, effective prayer habits.`,
+        imageLink: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2R4ypuILrBT8SzSTF6JT0ilGUeUsaKGbHuA&s',
+        downloadLink: 'https://drive.google.com/file/d/19fL97PSAsbhGPBo_bPopPpm3b_6LW0V6/view?usp=drive_link',
         timestamp: 1626451200000,
-        likes: { user1: { userId: 'user1', timestamp: 1626451200000 } },
-        comments: [
-          { email: 'alice@example.com', text: 'A timeless read!', timestamp: 1626451300000 },
-          { email: 'bob@example.com', text: 'Loved the characters.', timestamp: 1626451400000 }
-        ]
+        details: {
+          authors: ['Jansen Trotman, MA', 'Gloria Trotman, PhD'],
+          pages: 144,
+          binding: 'Paperback',
+          dimensions: '16 × 23 cm',
+          publisher: 'Inter‑American Division Press',
+          keyTopics: [
+            'Power & privilege of prayer',
+            'Holy Spirit’s role',
+            'Biblical examples (Jesus, Psalms)',
+            'Understanding God’s responses',
+            'Building vibrant prayer habits'
+          ]
+        }
       },
       {
         id: 'book2',
         posterName: 'Jane Smith',
-        title: '1984',
+        title: 'CALL TO SERVE',
         description: 'A dystopian tale of surveillance and control.',
         content: 'George Orwell\'s novel depicts a totalitarian society where Big Brother watches every move...',
-        imageLink: 'https://s26162.pcdn.co/wp-content/uploads/sites/2/2022/08/Books.jpg',
-        downloadLink: 'https://example.com/1984.pdf',
+        imageLink: 'https://images.squarespace-cdn.com/content/v1/596f83e15016e1bccacb22eb/1550686582701-BR7PM3VW7NK6VED3C57E/Called+to+Serve.png',
+        downloadLink: 'https://drive.google.com/file/d/16sxLWGzOJKI-pGpuK30of3VtOWtdefDs/view?usp=drive_link',
         timestamp: 1626451100000,
-        likes: {},
-        comments: [
-          { email: 'carol@example.com', text: 'Chilling and thought-provoking.', timestamp: 1626451200000 }
-        ]
+        details: {
+          authors: ['George Orwell'],
+          pages: 328,
+          binding: 'Hardcover',
+          dimensions: '13 × 20 cm',
+          publisher: 'Secker & Warburg',
+          keyTopics: [
+            'Totalitarianism',
+            'Surveillance',
+            'Individual freedom',
+            'Propaganda'
+          ]
+        }
       },
       {
         id: 'book3',
         posterName: 'Emily Johnson',
-        title: 'Pride and Prejudice',
+        title: 'PRIDE AND PREJUDICE',
         description: 'A romantic novel about love and social class.',
         content: 'Jane Austen\'s witty novel follows Elizabeth Bennet as she navigates societal expectations...',
         imageLink: 'https://greenvillejournal.com/wp-content/uploads/2024/12/books-iStock-1481862788-edited.jpg',
         downloadLink: 'https://example.com/pride-and-prejudice.pdf',
         timestamp: 1626451000000,
-        likes: { user2: { userId: 'user2', timestamp: 1626451000000 } },
-        comments: []
+        details: {
+          authors: ['Jane Austen'],
+          pages: 432,
+          binding: 'Paperback',
+          dimensions: '13 × 20 cm',
+          publisher: 'T. Egerton',
+          keyTopics: [
+            'Love and marriage',
+            'Social class',
+            'Family dynamics',
+            'Personal growth'
+          ]
+        }
       }
     ];
 
@@ -884,8 +794,6 @@
       const navbarNav = document.querySelector('.navbar-nav');
       const navbar = document.querySelector('.navbar');
       const searchContainerMobile = document.querySelector('.search-container.mobile-only');
-      let userComments = JSON.parse(localStorage.getItem('bookComments')) || {};
-      let userLikes = JSON.parse(localStorage.getItem('bookLikes')) || {};
       let lastScrollY = 0;
 
       if (logoutBtn) {
@@ -932,14 +840,6 @@
           hamburger.innerHTML = `<i class="fas fa-bars"></i>`;
           hamburger.setAttribute('aria-label', 'Open menu');
           if (window.innerWidth <= 768) searchContainerMobile.classList.add('active');
-        }
-        if (!e.target.closest('.comment-section')) {
-          document.querySelectorAll('.comments-list.active').forEach(list => {
-            list.classList.remove('active');
-            list.querySelectorAll('.comment').forEach((comment, index) => {
-              comment.style.display = index === 0 ? 'block' : 'none';
-            });
-          });
         }
       });
 
@@ -994,42 +894,6 @@
         }, 3000);
       }
 
-      function toggleLike(bookId, likeBtn) {
-        if (!userLikes[bookId]) userLikes[bookId] = [];
-        const userId = 'user-static';
-        const index = userLikes[bookId].indexOf(userId);
-        if (index !== -1) {
-          userLikes[bookId].splice(index, 1);
-          showNotification('Like removed.');
-          likeBtn.classList.remove('liked');
-        } else {
-          userLikes[bookId].push(userId);
-          showNotification('Liked successfully!');
-          likeBtn.classList.add('liked');
-        }
-        localStorage.setItem('bookLikes', JSON.stringify(userLikes));
-        renderBooks(booksData);
-      }
-
-      function addComment(bookId, commentText, commentInput, commentsList) {
-        if (!commentText.trim()) {
-          showNotification('Comment cannot be empty.', true);
-          return;
-        }
-        if (!userComments[bookId]) userComments[bookId] = [];
-        userComments[bookId].push({
-          email: 'user@example.com',
-          text: commentText,
-          timestamp: Date.now()
-        });
-        localStorage.setItem('bookComments', JSON.stringify(userComments));
-        showNotification('Comment added successfully!');
-        commentInput.value = '';
-        commentsList.classList.add('active');
-        commentsList.querySelectorAll('.comment').forEach(comment => comment.style.display = 'block');
-        renderBooks(booksData);
-      }
-
       function renderBooks(books) {
         postsContainer.innerHTML = '';
         const searchQuery = (searchInput?.value || searchInputMobile?.value || '').toLowerCase();
@@ -1037,7 +901,10 @@
           !searchQuery ||
           book.title?.toLowerCase().includes(searchQuery) ||
           (book.description && book.description.toLowerCase().includes(searchQuery)) ||
-          (book.content && book.content.toLowerCase().includes(searchQuery))
+          (book.content && book.content.toLowerCase().includes(searchQuery)) ||
+          (book.details?.authors && book.details.authors.join(' ').toLowerCase().includes(searchQuery)) ||
+          (book.details?.publisher && book.details.publisher.toLowerCase().includes(searchQuery)) ||
+          (book.details?.keyTopics && book.details.keyTopics.join(' ').toLowerCase().includes(searchQuery))
         ).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
         if (filteredBooks.length === 0) {
@@ -1051,25 +918,23 @@
         }
 
         filteredBooks.forEach((book, index) => {
-          const likesCount = userLikes[book.id] ? userLikes[book.id].length : (book.likes ? Object.keys(book.likes).length : 0);
-          const commentsCount = (book.comments || []).length + (userComments[book.id] || []).length;
           const userInitials = getUserInitials(book.posterName);
-          const isLiked = userLikes[book.id] && userLikes[book.id].includes('user-static');
-
-          const commentsHtml = [
-            ...(book.comments || []),
-            ...(userComments[book.id] || [])
-          ].sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0))
-            .map((comment, i) => `
-              <div class="comment" style="${i > 0 ? 'display:none' : ''}">
-                <div class="comment-header">
-                  <div class="comment-avatar">${getUserInitials(comment.email)}</div>
-                  <div class="comment-author">${comment.email || 'Anonymous'}</div>
-                </div>
-                <div class="comment-text">${comment.text || ''}</div>
-                <div class="comment-time">${timeAgo(comment.timestamp)}</div>
-              </div>
-            `).join('') || '<p style="color: #a0aec0; text-align: center; padding: 15px;">No comments yet. Be the first to comment!</p>';
+          const detailsHtml = book.details ? `
+            <div class="post-details">
+              <h4>Book Details</h4>
+              <p><strong>Authors:</strong> ${book.details.authors ? book.details.authors.join(', ') : 'Unknown'}</p>
+              <p><strong>Pages:</strong> ${book.details.pages || 'N/A'}</p>
+              <p><strong>Binding:</strong> ${book.details.binding || 'N/A'}</p>
+              <p><strong>Dimensions:</strong> ${book.details.dimensions || 'N/A'}</p>
+              <p><strong>Publisher:</strong> ${book.details.publisher || 'N/A'}</p>
+              ${book.details.keyTopics ? `
+                <h4>Key Topics</h4>
+                <ul>
+                  ${book.details.keyTopics.map(topic => `<li>${topic}</li>`).join('')}
+                </ul>
+              ` : ''}
+            </div>
+          ` : '';
 
           const postElement = document.createElement('div');
           postElement.className = 'post';
@@ -1091,70 +956,15 @@
               </div>
               ${book.description ? `<div class="post-description">${book.description}</div>` : ''}
               ${book.content ? `<div class="post-content">${book.content}</div>` : ''}
+              ${detailsHtml}
               <div class="post-actions">
-                <button class="like-btn ${isLiked ? 'liked' : ''}" data-book-id="${book.id}">
-                  <i class="fas fa-heart"></i>
-                  <span>${likesCount} ${likesCount === 1 ? 'Like' : 'Likes'}</span>
-                </button>
                 <a href="${book.downloadLink || '#'}" class="download-btn" target="_blank">
                   <i class="fas fa-download"></i> Download Book
                 </a>
-                <div class="post-stats">
-                  <span><i class="fas fa-comments"></i> ${commentsCount} ${commentsCount === 1 ? 'Comment' : 'Comments'}</span>
-                </div>
-              </div>
-              <div class="comment-section">
-                <h4 data-book-id="${book.id}" aria-label="Toggle comments"><i class="fas fa-comments"></i> Comments</h4>
-                <div class="comments-list">${commentsHtml}</div>
-                <div class="comment-form">
-                  <textarea class="comment-input" placeholder="Share your thoughts..." rows="3" id="comment-${book.id}" aria-label="Add comment"></textarea>
-                  <button class="comment-btn" data-book-id="${book.id}">
-                    <i class="fas fa-paper-plane"></i> Comment
-                  </button>
-                </div>
               </div>
             </div>
           `;
           postsContainer.appendChild(postElement);
-
-          const header = postElement.querySelector('.comment-section h4');
-          if (header) {
-            header.addEventListener('click', (e) => {
-              e.stopPropagation();
-              const commentsList = header.nextElementSibling;
-              commentsList.classList.toggle('active');
-              commentsList.querySelectorAll('.comment').forEach((comment, i) => {
-                comment.style.display = commentsList.classList.contains('active') ? 'block' : (i === 0 ? 'block' : 'none');
-              });
-            });
-          }
-
-          const likeBtn = postElement.querySelector('.like-btn');
-          if (likeBtn) {
-            likeBtn.addEventListener('click', () => {
-              const bookId = likeBtn.getAttribute('data-book-id');
-              toggleLike(bookId, likeBtn);
-            });
-          }
-
-          const commentBtn = postElement.querySelector('.comment-btn');
-          const commentInput = postElement.querySelector('.comment-input');
-          const commentsList = postElement.querySelector('.comments-list');
-          if (commentBtn && commentInput) {
-            commentBtn.addEventListener('click', () => {
-              const bookId = commentBtn.getAttribute('data-book-id');
-              const commentText = commentInput.value.trim();
-              addComment(bookId, commentText, commentInput, commentsList);
-            });
-            commentInput.addEventListener('keypress', (e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                const bookId = commentBtn.getAttribute('data-book-id');
-                const commentText = commentInput.value.trim();
-                addComment(bookId, commentText, commentInput, commentsList);
-              }
-            });
-          }
         });
       }
 

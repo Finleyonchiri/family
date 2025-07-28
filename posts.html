@@ -163,6 +163,103 @@
       padding: 20px 8px;
       overflow-x: hidden;
     }
+    .slider-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 20px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 100%;
+    }
+    .slide {
+      min-width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: #ffffff;
+    }
+    .slide img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px 12px 0 0;
+    }
+    .slide-caption {
+      background: rgba(45, 55, 72, 0.9);
+      color: white;
+      padding: 15px;
+      width: 100%;
+      border-radius: 0 0 12px 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.5;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .slider-nav button {
+      background: rgba(102, 126, 234, 0.7);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background 0.3s ease;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 10px;
+    }
+    .slider-nav button:hover {
+      background: rgba(102, 126, 234, 1);
+    }
+    .slider-nav button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .slider-dots {
+      position: absolute;
+      bottom: 70px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      z-index: 10;
+    }
+    .slider-dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .slider-dot.active {
+      background: #667eea;
+    }
     #posts-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -267,8 +364,10 @@
       padding: 12px 0;
       border-top: 1px solid #e2e8f0;
       margin-top: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    .like-btn {
+    .like-btn, .view-btn {
       background: linear-gradient(135deg, #11998e, #38ef7d);
       color: white;
       border: none;
@@ -283,12 +382,16 @@
       transition: all 0.3s ease;
       min-height: 44px;
     }
-    .like-btn:hover {
+    .like-btn:hover, .view-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
     }
     .like-btn.liked {
       background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    }
+    .view-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
     }
     .post-stats {
       color: #718096;
@@ -678,6 +781,12 @@
         z-index: 999;
       }
       .search-container.mobile-only.active { display: flex; }
+      .slider-container { margin-bottom: 15px; }
+      .slide img { height: 250px; }
+      .slide-caption { font-size: 0.85rem; padding: 10px; min-height: 50px; }
+      .slider-nav button { width: 35px; height: 35px; font-size: 1rem; margin: 0 5px; }
+      .slider-dots { bottom: 60px; }
+      .slider-dot { width: 8px; height: 8px; }
       #posts-container { grid-template-columns: 1fr; gap: 15px; width: 100%; }
       .post { padding: 12px; min-height: 180px; width: 100%; }
       .post-content-wrapper { padding: 12px; }
@@ -688,7 +797,7 @@
       .post-image { max-height: 300px; }
       .post-description { font-size: 0.9rem; }
       .post-actions { padding: 10px 0; }
-      .like-btn, .comment-btn { font-size: 0.85rem; padding: 6px 12px; }
+      .like-btn, .view-btn, .comment-btn { font-size: 0.85rem; padding: 6px 12px; }
       .post-stats { font-size: 0.8rem; }
       .comment-section { padding-top: 10px; }
       .comment-section h4 { font-size: 0.95rem; }
@@ -703,13 +812,17 @@
     }
     @media (max-width: 480px) {
       .navbar-brand { font-size: 1.2rem; }
+      .slide img { height: 200px; }
+      .slide-caption { font-size: 0.8rem; padding: 8px; }
+      .slider-nav button { width: 30px; height: 30px; font-size: 0.9rem; }
+      .slider-dots { bottom: 55px; }
       .post-info h3 { font-size: 1.3rem; }
       .post-description { font-size: 0.85rem; }
       .post-meta { font-size: 0.75rem; }
       .comment-section h4 { font-size: 0.9rem; }
       .comment-author, .comment-text { font-size: 0.8rem; }
       .comment-time { font-size: 0.7rem; }
-      .comment-input, .comment-btn, .like-btn { font-size: 0.8rem; }
+      .comment-input, .comment-btn, .like-btn, .view-btn { font-size: 0.8rem; }
     }
   </style>
 </head>
@@ -743,6 +856,27 @@
       <input type="text" class="search-input" placeholder="Search posts..." id="search-input-mobile" aria-label="Search posts">
     </div>
     <div class="container">
+      <div class="slider-container">
+        <div class="slider" id="slider">
+          <div class="slide">
+            <img src="https://i.ytimg.com/vi/VTJwAZ5cLYI/maxresdefault.jpg">
+            <div class="slide-caption">By Faith God does great in our lives.</div>
+          </div>
+          <div class="slide">
+            <img src="https://media.licdn.com/dms/image/v2/D4D12AQHhyz_QCy_O0Q/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1697448795432?e=2147483647&v=beta&t=Tt-onyx9B4IuwqXMg1NukWym6jVY2zEKaaqXiqXHdfw">
+            <div class="slide-caption">Finley is organizing lessons that will majour on AI in respective to its use. Be ready to learn and do great with AI to even improve your productivity .</div>
+          </div>
+          <div class="slide">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Family Memory 3">
+            <div class="slide-caption">Our summer road trip adventure across the countryside.</div>
+          </div>
+        </div>
+        <div class="slider-nav">
+          <button id="prev-slide" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+          <button id="next-slide" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="slider-dots" id="slider-dots"></div>
+      </div>
       <div id="posts-container">
         <div class="loading">Loading posts...</div>
       </div>
@@ -823,6 +957,70 @@
       const searchContainerMobile = document.querySelector('.search-container.mobile-only');
       let cachedPosts = null;
       let lastScrollY = 0;
+
+      // Slider JavaScript
+      const slider = document.getElementById('slider');
+      const slides = document.querySelectorAll('.slide');
+      const prevButton = document.getElementById('prev-slide');
+      const nextButton = document.getElementById('next-slide');
+      const dotsContainer = document.getElementById('slider-dots');
+      let currentSlide = 0;
+      let autoPlayInterval;
+
+      function updateSlider() {
+        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        document.querySelectorAll('.slider-dot').forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentSlide);
+        });
+        prevButton.disabled = currentSlide === 0;
+        nextButton.disabled = currentSlide === slides.length - 1;
+      }
+
+      function createDots() {
+        slides.forEach((_, index) => {
+          const dot = document.createElement('span');
+          dot.className = 'slider-dot';
+          dot.addEventListener('click', () => {
+            currentSlide = index;
+            updateSlider();
+            resetAutoPlay();
+          });
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        updateSlider();
+      }
+
+      function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        updateSlider();
+      }
+
+      function startAutoPlay() {
+        autoPlayInterval = setInterval(nextSlide, 5000);
+      }
+
+      function resetAutoPlay() {
+        clearInterval(autoPlayInterval);
+        startAutoPlay();
+      }
+
+      if (slides.length > 0) {
+        createDots();
+        updateSlider();
+        prevButton.addEventListener('click', () => {
+          prevSlide();
+          resetAutoPlay();
+        });
+        nextButton.addEventListener('click', () => {
+          nextSlide();
+          resetAutoPlay();
+        });
+        startAutoPlay();
+      }
 
       auth.onAuthStateChanged(user => {
         if (!user) window.location.href = 'index.html';
@@ -967,6 +1165,10 @@
           const userInitials = getUserInitials(post.posterName);
           const currentUser = auth.currentUser;
           const isLiked = currentUser && post.likes && post.likes[currentUser.uid];
+          const isViewable = post.imageLink && (post.imageLink.toLowerCase().endsWith('.jpg') || 
+                                               post.imageLink.toLowerCase().endsWith('.jpeg') || 
+                                               post.imageLink.toLowerCase().endsWith('.png') || 
+                                               post.imageLink.toLowerCase().endsWith('.pdf'));
 
           const commentsHtml = post.comments
             ? Object.values(post.comments)
@@ -998,7 +1200,7 @@
                   </div>
                 </div>
               </div>
-              ${post.imageLink ? `
+              ${post.imageLink && !post.imageLink.toLowerCase().endsWith('.pdf') ? `
                 <div class="post-image-container">
                   <img src="${post.imageLink}" alt="${post.title || 'Image'}" class="post-image" onerror="this.parentElement.style.display='none'">
                 </div>
@@ -1009,6 +1211,12 @@
                   <i class="fas fa-heart"></i>
                   <span>${likesCount} ${likesCount === 1 ? 'Like' : 'Likes'}</span>
                 </button>
+                ${isViewable ? `
+                  <a href="${post.imageLink}" target="_blank" class="view-btn" data-post-id="${postId}">
+                    <i class="fas fa-eye"></i>
+                    <span>View ${post.imageLink.toLowerCase().endsWith('.pdf') ? 'PDF' : 'Image'}</span>
+                  </a>
+                ` : ''}
                 <div class="post-stats">
                   <span><i class="fas fa-comments"></i> ${commentsCount} ${commentsCount === 1 ? 'Comment' : 'Comments'}</span>
                 </div>
